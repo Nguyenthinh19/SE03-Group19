@@ -8,3 +8,5 @@ Order Foods App is a example for order foods app base on Google Firebase
 Android Studio
 
 Firebase Google
+
+Source Tree or GitKraken to manage code

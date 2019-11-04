@@ -3,6 +3,7 @@
 ### *Goals
 Order Foods App is a example for order foods app base on Google Firebase
 ### *Feature
+Sign in, Sign up
 ## 2. Tools and Technological
 ### *Tools
 Android Studio

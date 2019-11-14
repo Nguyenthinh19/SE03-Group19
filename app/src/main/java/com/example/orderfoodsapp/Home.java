@@ -1,5 +1,6 @@
 package com.example.orderfoodsapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -112,8 +113,9 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
                 menuViewHolder.setItemClickListener(new ItemClickListener() {
                     @Override
                     public void onClick(View view, int position, boolean isLongClick) {
-                        Toast.makeText(Home.this, "" + clickItem.getName(), Toast.LENGTH_SHORT).show();
-
+                        Intent foodList = new Intent(Home.this, FoodList.class);
+                        foodList.putExtra("CategoryId", adapter.getRef(position).getKey());
+                        startActivity(foodList);
                     }
                 });
             }

@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -37,7 +38,7 @@ public class FoodList extends AppCompatActivity {
 
         //get database from FB
         database = FirebaseDatabase.getInstance();
-        foodList = database.getReference("Foods");
+        foodList = database.getReference("Food");
 
         recyclerView = findViewById(R.id.recycler_food);
         recyclerView.setHasFixedSize(true);
@@ -56,13 +57,15 @@ public class FoodList extends AppCompatActivity {
 
     private void loadListFood(String categoryId) {
         FirebaseRecyclerOptions<Food> options = new FirebaseRecyclerOptions.Builder<Food>()
-                .setQuery(foodList,Food.class)
+                .setQuery(foodList.orderByChild("MenuId").equalTo(categoryId),Food.class)
                 .build();
         adapter = new FirebaseRecyclerAdapter<Food, FoodViewHolder>(options) {
             @NonNull
             @Override
             public FoodViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                return null;
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.food_item,parent,false);
+
+                return new FoodViewHolder(view);
             }
 
             @Override
@@ -80,7 +83,8 @@ public class FoodList extends AppCompatActivity {
                 });
             }
         };
-
+        adapter.startListening();
+        adapter.notifyDataSetChanged();
         recyclerView.setAdapter(adapter);
     }
 }

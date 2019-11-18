@@ -1,7 +1,8 @@
 package com.example.orderfoodsapp.Model;
 
 public class Food {
-    private String Name, Image, Description, Price,Discount, MenuId;
+
+    private String Name, Image, Description, Price, Discount, MenuId;
 
     public Food() {
     }

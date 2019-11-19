@@ -11,3 +11,5 @@ Android Studio
 Firebase Google
 
 Source Tree or GitKraken to manage code
+
+SQLite to CRUD data from database

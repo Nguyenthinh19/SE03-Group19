@@ -2,7 +2,9 @@
 ## 1. Goals and Feature
 ### *Goals
 - Order Foods App is a example for order foods app base on Google Firebase.
-- Projects will be finished in 4 week.
+- App will be finished in 4 week.
+- App don't have bugs, User can use the app to order foods.
+- Knowing how to use the Firebase Databse to save and transmit data to your app.
 ### *Feature
 Sign in, Sign up.
 ## 2. Tools and Technological

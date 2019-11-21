@@ -1,15 +1,16 @@
 # Order Foods App
 ## 1. Goals and Feature
 ### *Goals
-Order Foods App is a example for order foods app base on Google Firebase
+- Order Foods App is a example for order foods app base on Google Firebase.
+- Projects will be finshed in 4 week.
 ### *Feature
-Sign in, Sign up
+Sign in, Sign up.
 ## 2. Tools and Technological
 ### *Tools
-Android Studio
+Android Studio.
 
-Firebase Google
+Firebase Google.
 
-Source Tree or GitKraken to manage code
+Source Tree or GitKraken to manage code.
 
-SQLite to CRUD data from database
+SQLite to CRUD data from database.

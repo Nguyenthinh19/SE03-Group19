@@ -31,7 +31,7 @@ public class SignUp extends AppCompatActivity {
         edtPassword = (MaterialEditText) findViewById(R.id.edtPassword);
         edtPhone = (MaterialEditText) findViewById(R.id.edtPhone);
         btnSignUp = (Button) findViewById(R.id.btnSignUp);
-        // intt Firebase
+        // init Firebase
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         final DatabaseReference table_user = database.getReference("User");
 
@@ -46,13 +46,13 @@ public class SignUp extends AppCompatActivity {
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         if(dataSnapshot.child(edtPhone.getText().toString()).exists()){
                             mDialog.dismiss();
-                            Toast.makeText(SignUp.this,"Phone Number alredy register",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SignUp.this,"Phone Number already register",Toast.LENGTH_SHORT).show();
                         }
                         else {
                             mDialog.dismiss();
                             User user = new User(edtName.getText().toString(),edtPassword.getText().toString());
                             table_user.child(edtPhone.getText().toString()).setValue(user);
-                            Toast.makeText(SignUp.this,"Sing up sucessfully!",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SignUp.this,"Sign up successfully!",Toast.LENGTH_SHORT).show();
 
                         }
 

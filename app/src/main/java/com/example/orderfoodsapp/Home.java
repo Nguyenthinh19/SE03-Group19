@@ -61,7 +61,8 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent cartIntent = new Intent(Home.this, Cart.class);
+                startActivity(cartIntent);
             }
         });
 
@@ -75,23 +76,21 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         navigationView.setNavigationItemSelectedListener(this);
 
         View headerView = navigationView.getHeaderView(0);
-        txtFullName = (TextView)headerView.findViewById(R.id.txtFullName);
+        txtFullName = (TextView) headerView.findViewById(R.id.txtFullName);
         txtFullName.setText(Common.currentUser.getName());
 
-        recycler_menu = (RecyclerView)findViewById(R.id.recycler_menu);
+        recycler_menu = (RecyclerView) findViewById(R.id.recycler_menu);
         recycler_menu.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         recycler_menu.setLayoutManager(layoutManager);
 
         loadMenu();
-
-
     }
 
     private void loadMenu() {
         FirebaseRecyclerOptions<Category> options = new FirebaseRecyclerOptions.Builder<Category>()
-            .setQuery(category,Category.class)
-            .build();
+                .setQuery(category, Category.class)
+                .build();
         adapter = new FirebaseRecyclerAdapter<Category, MenuViewHolder>(options) {
             @Override
             protected void onBindViewHolder(@NonNull MenuViewHolder menuViewHolder, int i, @NonNull Category category) {
@@ -104,7 +103,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
 
                     @Override
                     public void onError(Exception e) {
-                        Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
 
                     }
                 });
@@ -122,7 +121,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
             @NonNull
             @Override
             public MenuViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.menu_item,parent,false);
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.menu_item, parent, false);
                 return new MenuViewHolder(view);
             }
         };
@@ -159,12 +158,23 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
 
         if (id == R.id.nav_menu) {
 
+            Intent menuIntent = new Intent(Home.this, Home.class);
+            startActivity(menuIntent);
         } else if (id == R.id.nav_cart) {
+
+            Intent cartIntent = new Intent(Home.this, Cart.class);
+            startActivity(cartIntent);
 
         } else if (id == R.id.nav_orders) {
 
+            Intent orderIntent = new Intent(Home.this, OrderStatus.class);
+            startActivity(orderIntent);
+
         } else if (id == R.id.nav_logOut) {
 
+            Intent mainActivity = new Intent(Home.this, MainActivity.class);
+            mainActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(mainActivity);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

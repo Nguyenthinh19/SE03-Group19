@@ -6,13 +6,16 @@
 - App don't have bugs, User can use the app to order foods.
 - Knowing how to use the Firebase Databse to save and transmit data to the app.
 ### *Feature
-Sign in, Sign up.
+- Sign in, Sign up, Sing out.
+- Show list menu, list food.
+- Ordering.
+- Show list view Orders.
 ## 2. Tools and Technological
 ### *Tools
-Android Studio.
+- Android Studio.
 
-Firebase Google.
+- Firebase Google.
 
-Source Tree or GitKraken to manage code.
+- Source Tree or GitKraken to manage code.
 
-SQLite to CRUD data from database.
+- SQLite to CRUD data from database.

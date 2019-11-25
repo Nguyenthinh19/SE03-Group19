@@ -19,3 +19,8 @@
 - Source Tree or GitKraken to manage code.
 
 - SQLite to CRUD data from database.
+## 3. Members
+- Nguyễn Đức Thịnh.
+- Nguyễn Văn Thắng.
+- Hà Đức Trung.
+- Trần Tuấn Thành.

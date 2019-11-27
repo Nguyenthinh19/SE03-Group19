@@ -19,28 +19,40 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.rengwuxian.materialedittext.MaterialEditText;
+import com.rey.material.widget.CheckBox;
 
 import info.hoang8f.widget.FButton;
+import io.paperdb.Paper;
 
 public class SignIn extends AppCompatActivity {
     EditText edtPhone,edtPassword;
     FButton btnSignIn;
-
+    CheckBox ckbRemember;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
 
+        ckbRemember = (CheckBox) findViewById(R.id.ckbRemeber);
         edtPassword =(MaterialEditText) findViewById(R.id.edtPassword);
         edtPhone = (MaterialEditText) findViewById(R.id.edtPhone);
         btnSignIn = (FButton) findViewById(R.id.btnSignIn);
 
+        // init paper
+        Paper.init(this);
+        // init firebase
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         final DatabaseReference table_user = database.getReference("User");
+
         btnSignIn.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
+                if (ckbRemember.isChecked()){
+                    Paper.book().write(Common.USER_KEY,edtPhone.getText().toString());
+                    Paper.book().write(Common.PWD_KEY,edtPassword.getText().toString());
+                }
+                // save user & password
                 final ProgressDialog mDialog  = new ProgressDialog(SignIn.this);
                 mDialog.setMessage("Please waiting...");
                 mDialog.show();

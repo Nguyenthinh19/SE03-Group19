@@ -36,6 +36,8 @@ public class SignIn extends AppCompatActivity {
     TextView txtForgotPwd;
     FirebaseDatabase database;
     DatabaseReference table_user;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +61,14 @@ public class SignIn extends AppCompatActivity {
                 showFogotPwdDialog();
             }
         });
+
+
+
+        // init paper
+        Paper.init(this);
+        // init firebase
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        final DatabaseReference table_user = database.getReference("User");
 
         btnSignIn.setOnClickListener(new View.OnClickListener() {
 

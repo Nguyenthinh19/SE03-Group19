@@ -19,7 +19,7 @@
         android:layout_height="match_parent"
         android:layout_width="match_parent"
         android:id="@+id/recycler_food"
-        android:layout_above="@+id/searchBar"
+        android:layout_below="@+id/searchBar"
         android:scrollbars="vertical"
         />
 

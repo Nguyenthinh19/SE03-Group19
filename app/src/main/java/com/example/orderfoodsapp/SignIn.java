@@ -74,45 +74,53 @@ public class SignIn extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                if (ckbRemember.isChecked()){
-                    Paper.book().write(Common.USER_KEY,edtPhone.getText().toString());
-                    Paper.book().write(Common.PWD_KEY,edtPassword.getText().toString());
-                }
-                // save user & password
-                final ProgressDialog mDialog  = new ProgressDialog(SignIn.this);
-                mDialog.setMessage("Please waiting...");
-                mDialog.show();
-                table_user.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        // Check if user not exit in database
-                        if (dataSnapshot.child(edtPhone.getText().toString()).exists()) {
-                            // Get User Information
-                            mDialog.dismiss();
-                            User user = dataSnapshot.child(edtPhone.getText().toString()).getValue(User.class);
-                            user.setPhone(edtPhone.getText().toString());
-                            if (user.getPassword().equals(edtPassword.getText().toString())) {
-                                {
-                                    Intent homeIntent = new Intent(SignIn.this,Home.class);
-                                    Common.currentUser = user;
-                                    startActivity(homeIntent);
-                                    finish();
+                if(Common.isConnectedToInternet(getBaseContext())) {
+
+
+                    if (ckbRemember.isChecked()) {
+                        Paper.book().write(Common.USER_KEY, edtPhone.getText().toString());
+                        Paper.book().write(Common.PWD_KEY, edtPassword.getText().toString());
+                    }
+                    // save user & password
+                    final ProgressDialog mDialog = new ProgressDialog(SignIn.this);
+                    mDialog.setMessage("Please waiting...");
+                    mDialog.show();
+                    table_user.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            // Check if user not exit in database
+                            if (dataSnapshot.child(edtPhone.getText().toString()).exists()) {
+                                // Get User Information
+                                mDialog.dismiss();
+                                User user = dataSnapshot.child(edtPhone.getText().toString()).getValue(User.class);
+                                user.setPhone(edtPhone.getText().toString());
+                                if (user.getPassword().equals(edtPassword.getText().toString())) {
+                                    {
+                                        Intent homeIntent = new Intent(SignIn.this, Home.class);
+                                        Common.currentUser = user;
+                                        startActivity(homeIntent);
+                                        finish();
+                                    }
+
+                                } else {
+                                    Toast.makeText(SignIn.this, "Wrong Password!", Toast.LENGTH_SHORT).show();
                                 }
-
                             } else {
-                                Toast.makeText(SignIn.this, "Wrong Password!", Toast.LENGTH_SHORT).show();
+                                mDialog.dismiss();
+                                Toast.makeText(SignIn.this, "User not exist!!!", Toast.LENGTH_SHORT).show();
                             }
-                        }else {
-                            mDialog.dismiss();
-                            Toast.makeText(SignIn.this,"User not exist!!!",Toast.LENGTH_SHORT).show();
                         }
-                    }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                    }
-                });
+                        }
+                    });
+                }
+                else {
+                    Toast.makeText(SignIn.this, "Please check your connection!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
             }
         });
     }

@@ -1,5 +1,9 @@
 package com.example.orderfoodsapp.Common;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+
 import com.example.orderfoodsapp.Model.User;
 
 public class Common {
@@ -18,5 +22,19 @@ public class Common {
         else
             return "Shipped";
 
+    }
+
+    public  static boolean isConnectedToInternet(Context context) {
+        ConnectivityManager connectivityManager = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if(connectivityManager != null) {
+            NetworkInfo[] infor = connectivityManager.getAllNetworkInfo();
+            if (infor != null) {
+                for (int i=0; i<infor.length; i++) {
+                    if (infor[i].getState() == NetworkInfo.State.CONNECTED)
+                        return true;
+                }
+            }
+        }
+        return false;
     }
 }

@@ -13,7 +13,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.example.orderfoodsapp.Common.Common;
 import com.example.orderfoodsapp.Interface.ItemClickListener;
 import com.example.orderfoodsapp.Model.Food;
 import com.example.orderfoodsapp.ViewHolder.FoodViewHolder;
@@ -66,7 +68,12 @@ public class FoodList extends AppCompatActivity {
             categoryId = getIntent().getStringExtra("CategoryId");
         }
         if(!categoryId.isEmpty() && categoryId != null) {
-            loadListFood(categoryId);
+            if(Common.isConnectedToInternet(getBaseContext()))
+                loadListFood(categoryId);
+            else {
+                Toast.makeText(FoodList.this, "Please check your connection!", Toast.LENGTH_SHORT).show();
+                return;
+            }
         }
 
         //search

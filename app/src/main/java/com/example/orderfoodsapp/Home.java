@@ -84,7 +84,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
                 if (Common.isConnectedToInternet(getBaseContext())) {
                     loadMenu();
                 } else {
-                    Toast.makeText(getBaseContext(),"Please check your connection",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getBaseContext(), "Please check your connection", Toast.LENGTH_SHORT).show();
                     return;
                 }
             }
@@ -95,12 +95,11 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
                 if (Common.isConnectedToInternet(getBaseContext())) {
                     loadMenu();
                 } else {
-                    Toast.makeText(getBaseContext(),"Please check your connection",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getBaseContext(), "Please check your connection", Toast.LENGTH_SHORT).show();
                     return;
                 }
             }
         });
-
 
 
         database = FirebaseDatabase.getInstance();
@@ -136,7 +135,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         layoutManager = new LinearLayoutManager(this);
         recycler_menu.setLayoutManager(layoutManager);
 
-        if(Common.isConnectedToInternet(this))
+        if (Common.isConnectedToInternet(this))
             loadMenu();
         else {
             Toast.makeText(this, "Please check your connection!", Toast.LENGTH_SHORT).show();
@@ -207,7 +206,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId() == R.id.refresh)
+        if (item.getItemId() == R.id.refresh)
             loadMenu();
         return super.onOptionsItemSelected(item);
     }
@@ -252,11 +251,11 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         alertDialog.setMessage("Please fill all infomation");
 
         LayoutInflater inflater = LayoutInflater.from(this);
-        View layout_pwd = inflater.inflate(R.layout.change_password_layout,null);
+        View layout_pwd = inflater.inflate(R.layout.change_password_layout, null);
 
-        final MaterialEditText edtPassword = (MaterialEditText)layout_pwd.findViewById(R.id.edtPassword);
-        final MaterialEditText edtNewPassword = (MaterialEditText)layout_pwd.findViewById(R.id.edtNewPassword);
-        final MaterialEditText edtRepeatPassword = (MaterialEditText)layout_pwd.findViewById(R.id.edtRepeatPassword);
+        final MaterialEditText edtPassword = (MaterialEditText) layout_pwd.findViewById(R.id.edtPassword);
+        final MaterialEditText edtNewPassword = (MaterialEditText) layout_pwd.findViewById(R.id.edtNewPassword);
+        final MaterialEditText edtRepeatPassword = (MaterialEditText) layout_pwd.findViewById(R.id.edtRepeatPassword);
 
         alertDialog.setView(layout_pwd);
 
@@ -268,10 +267,10 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
                 waitingDialog.show();
 
                 //check oldpassword
-                if (edtPassword.getText().toString().equals(Common.currentUser.getPassword())){
-                    if (edtNewPassword.getText().toString().equals(edtRepeatPassword.getText().toString())){
-                        Map<String,Object> passwordUpdate = new HashMap<>();
-                        passwordUpdate.put("password",edtNewPassword.getText().toString());
+                if (edtPassword.getText().toString().equals(Common.currentUser.getPassword())) {
+                    if (edtNewPassword.getText().toString().equals(edtRepeatPassword.getText().toString())) {
+                        Map<String, Object> passwordUpdate = new HashMap<>();
+                        passwordUpdate.put("password", edtNewPassword.getText().toString());
 
                         DatabaseReference user = FirebaseDatabase.getInstance().getReference("User");
                         user.child(Common.currentUser.getPhone())
@@ -281,19 +280,18 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
                                     public void onComplete(@NonNull Task<Void> task) {
                                         changeCurrentUser();
                                         waitingDialog.dismiss();
-                                        Toast.makeText(Home.this,"Password was update",Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(Home.this, "Password was update", Toast.LENGTH_SHORT).show();
                                     }
                                 })
                                 .addOnFailureListener(new OnFailureListener() {
                                     @Override
                                     public void onFailure(@NonNull Exception e) {
-                                        Toast.makeText(Home.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(Home.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                                     }
                                 });
-                    }
-                    else {
+                    } else {
                         waitingDialog.dismiss();
-                        Toast.makeText(Home.this,"New password doesn't match",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Home.this, "New password doesn't match", Toast.LENGTH_SHORT).show();
                     }
                 }
 
@@ -309,6 +307,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
 
 
     }
+
     private void changeCurrentUser() {
 
         if (Common.isConnectedToInternet(Home.this)) {
@@ -331,8 +330,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
 
                 }
             });
-        }
-        else {
+        } else {
             Toast.makeText(Home.this, "Plaese check your connection !!!", Toast.LENGTH_SHORT).show();
             return;
         }

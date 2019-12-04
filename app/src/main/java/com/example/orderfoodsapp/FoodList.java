@@ -2,6 +2,7 @@ package com.example.orderfoodsapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -71,6 +72,10 @@ public class FoodList extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
+
+        //recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+
+        //swipe to refresh layout
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swip_laypout);
         swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary,
                 android.R.color.holo_green_dark,
@@ -194,7 +199,6 @@ public class FoodList extends AppCompatActivity {
 
     }
 
-
     private void loadSuggest() {
         foodList.orderByChild("MenuId").equalTo(categoryId)
                 .addValueEventListener(new ValueEventListener() {
@@ -223,7 +227,6 @@ public class FoodList extends AppCompatActivity {
             @Override
             public FoodViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
                 View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.food_item, parent, false);
-
                 return new FoodViewHolder(view);
             }
 
@@ -237,32 +240,31 @@ public class FoodList extends AppCompatActivity {
 
                     @Override
                     public void onClick(View view, int position, boolean isLongClick) {
-                        //Toast.makeText(FoodList.this, ""+ local.getName(),Toast.LENGTH_SHORT).show();
                         Intent foodDetail = new Intent(FoodList.this, FoodDetail.class);
                         foodDetail.putExtra("FoodId", adapter.getRef(position).getKey());
                         startActivity(foodDetail);
                     }
                 });
 
-//                //Add Favorites
-//                if (localDB.isFavorites(adapter.getRef(i).getKey()))
-//                    foodViewHolder.fav_image.setImageResource(R.drawable.ic_favorite_black_24dp);
-//
-//                //Click to change state of Favorites
-//                foodViewHolder.fav_image.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View view) {
-//                        if (!localDB.isFavorites(adapter.getRef(i).getKey())) {
-//                            localDB.addToFavorites(adapter.getRef(i).getKey());
-//                            foodViewHolder.fav_image.setImageResource(R.drawable.ic_favorite_black_24dp);
-//                            Toast.makeText(FoodList.this, "" + food.getName() + "was added to Favorites", Toast.LENGTH_SHORT).show();
-//                        } else {
-//                            localDB.removeFromFavorites(adapter.getRef(i).getKey());
-//                            foodViewHolder.fav_image.setImageResource(R.drawable.ic_favorite_black_24dp);
-//                            Toast.makeText(FoodList.this, "" + food.getName() + "was removed to Favorites", Toast.LENGTH_SHORT).show();
-//                        }
-//                    }
-//                });
+                //Add Favorites
+                if (localDB.isFavorites(adapter.getRef(i).getKey()))
+                    foodViewHolder.fav_image.setImageResource(R.drawable.ic_favorite_black_24dp);
+
+                //Click to change state of Favorites
+                foodViewHolder.fav_image.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (!localDB.isFavorites(adapter.getRef(i).getKey())) {
+                            localDB.addToFavorites(adapter.getRef(i).getKey());
+                            foodViewHolder.fav_image.setImageResource(R.drawable.ic_favorite_black_24dp);
+                            Toast.makeText(FoodList.this, "" + food.getName() + " was added to Favorites", Toast.LENGTH_SHORT).show();
+                        } else {
+                            localDB.removeFromFavorites(adapter.getRef(i).getKey());
+                            foodViewHolder.fav_image.setImageResource(R.drawable.ic_favorite_black_24dp);
+                            Toast.makeText(FoodList.this, "" + food.getName() + " was removed to Favorites", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
 
             }
         };

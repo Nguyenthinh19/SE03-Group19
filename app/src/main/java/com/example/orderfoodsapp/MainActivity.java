@@ -24,51 +24,50 @@ import io.paperdb.Paper;
 
 public class MainActivity extends AppCompatActivity {
 
-        Button btnSignUp, btnSignIn;
-        TextView txtSlogan;
+    Button btnSignUp, btnSignIn;
+    TextView txtSlogan;
 
-        @Override
-        protected void onCreate(final Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_main);
+    @Override
+    protected void onCreate(final Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
-            btnSignIn = (Button) findViewById(R.id.btnSignIn);
-            btnSignUp = (Button) findViewById(R.id.btnSignUp);
-            txtSlogan = (TextView) findViewById(R.id.txtSlogan);
-            Typeface face = Typeface.createFromAsset(getAssets(),"fonts/NABILA.TTF");
-            txtSlogan.setTypeface(face);
+        btnSignIn = (Button) findViewById(R.id.btnSignIn);
+        btnSignUp = (Button) findViewById(R.id.btnSignUp);
+        txtSlogan = (TextView) findViewById(R.id.txtSlogan);
+        Typeface face = Typeface.createFromAsset(getAssets(), "fonts/NABILA.TTF");
+        txtSlogan.setTypeface(face);
 
-            //init paper
-            Paper.init(this);
+        //init paper
+        Paper.init(this);
 
-            btnSignIn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(MainActivity.this, SignIn.class);
-                    startActivity(intent);
+        btnSignIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, SignIn.class);
+                startActivity(intent);
 
 
-                }
-            });
-            btnSignUp.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(MainActivity.this,SignUp.class);
-                    startActivity(intent);
-                }
-            });
-            // Check remember
-            String user =Paper.book().read(Common.USER_KEY);
-            String pwd = Paper.book().read(Common.PWD_KEY);
-            if (user != null && pwd != null) {
-                if (!user.isEmpty()  && !pwd.isEmpty()) {
-                    login(user,pwd);
-                }
             }
-
-
-
+        });
+        btnSignUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, SignUp.class);
+                startActivity(intent);
+            }
+        });
+        // Check remember
+        String user = Paper.book().read(Common.USER_KEY);
+        String pwd = Paper.book().read(Common.PWD_KEY);
+        if (user != null && pwd != null) {
+            if (!user.isEmpty() && !pwd.isEmpty()) {
+                login(user, pwd);
+            }
         }
+
+
+    }
 
     private void login(final String phone, final String pwd) {
         // init firebase
@@ -112,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         } else {
-            Toast.makeText(MainActivity.this,"Please check Internet Connection", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, "Please check Internet Connection", Toast.LENGTH_SHORT).show();
             return;
         }
     }

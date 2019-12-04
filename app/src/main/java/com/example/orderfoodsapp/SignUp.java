@@ -23,6 +23,7 @@ import info.hoang8f.widget.FButton;
 public class SignUp extends AppCompatActivity {
     MaterialEditText edtPhone, edtName, edtPassword, edtSecureCode;
     Button btnSignUp;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,7 +41,7 @@ public class SignUp extends AppCompatActivity {
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(Common.isConnectedToInternet(getBaseContext())) {
+                if (Common.isConnectedToInternet(getBaseContext())) {
                     final ProgressDialog mDialog = new ProgressDialog(SignUp.this);
                     mDialog.setMessage("Please waiting...");
                     mDialog.show();
@@ -65,8 +66,7 @@ public class SignUp extends AppCompatActivity {
 
                         }
                     });
-                }
-                else {
+                } else {
                     Toast.makeText(SignUp.this, "Please check your connection!", Toast.LENGTH_SHORT).show();
                     return;
                 }

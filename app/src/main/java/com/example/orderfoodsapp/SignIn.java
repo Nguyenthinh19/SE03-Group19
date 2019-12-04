@@ -30,7 +30,7 @@ import info.hoang8f.widget.FButton;
 import io.paperdb.Paper;
 
 public class SignIn extends AppCompatActivity {
-    EditText edtPhone,edtPassword;
+    EditText edtPhone, edtPassword;
     FButton btnSignIn;
     CheckBox ckbRemember;
     TextView txtForgotPwd;
@@ -44,7 +44,7 @@ public class SignIn extends AppCompatActivity {
         setContentView(R.layout.activity_sign_in);
 
         ckbRemember = (CheckBox) findViewById(R.id.ckbRemeber);
-        edtPassword =(MaterialEditText) findViewById(R.id.edtPassword);
+        edtPassword = (MaterialEditText) findViewById(R.id.edtPassword);
         edtPhone = (MaterialEditText) findViewById(R.id.edtPhone);
         btnSignIn = (FButton) findViewById(R.id.btnSignIn);
         txtForgotPwd = (TextView) findViewById(R.id.txtFogotpwd);
@@ -63,7 +63,6 @@ public class SignIn extends AppCompatActivity {
         });
 
 
-
         // init paper
         Paper.init(this);
         // init firebase
@@ -74,7 +73,7 @@ public class SignIn extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                if(Common.isConnectedToInternet(getBaseContext())) {
+                if (Common.isConnectedToInternet(getBaseContext())) {
 
 
                     if (ckbRemember.isChecked()) {
@@ -118,8 +117,7 @@ public class SignIn extends AppCompatActivity {
 
                         }
                     });
-                }
-                else {
+                } else {
                     Toast.makeText(SignIn.this, "Please check your connection!", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -132,7 +130,7 @@ public class SignIn extends AppCompatActivity {
         builder.setTitle("Forgot Password");
         builder.setMessage("Enter your secure code");
         LayoutInflater inflater = this.getLayoutInflater();
-        View forgot_view = inflater.inflate(R.layout.forgot_password_layout,null);
+        View forgot_view = inflater.inflate(R.layout.forgot_password_layout, null);
         builder.setView(forgot_view);
         builder.setIcon(R.drawable.ic_security_black_24dp);
         MaterialEditText editPhone = (MaterialEditText) forgot_view.findViewById(R.id.edtPhone);
@@ -147,9 +145,9 @@ public class SignIn extends AppCompatActivity {
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         User user = dataSnapshot.child(edtPhone.getText().toString()).getValue(User.class);
                         if (user.getSecureCode().equals(editSecureCode.getText().toString())) {
-                            Toast.makeText(SignIn.this,"Your password : "+user.getPassword(),Toast.LENGTH_LONG).show();
+                            Toast.makeText(SignIn.this, "Your password : " + user.getPassword(), Toast.LENGTH_LONG).show();
                         } else {
-                            Toast.makeText(SignIn.this,"Wrong sercure code",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SignIn.this, "Wrong sercure code", Toast.LENGTH_SHORT).show();
 
                         }
                     }

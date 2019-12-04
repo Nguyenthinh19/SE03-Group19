@@ -16,6 +16,7 @@ import com.example.orderfoodsapp.Common.Common;
 import com.example.orderfoodsapp.Interface.ItemClickListener;
 import com.example.orderfoodsapp.Model.Order;
 import com.example.orderfoodsapp.R;
+import com.squareup.picasso.Picasso;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ class CartViewHolder extends RecyclerView.ViewHolder implements View.OnClickList
 
     public TextView txt_cart_name, txt_price;
     public ImageView img_cart_count;
+    public ImageView cart_image;
 
     private ItemClickListener itemClickListener;
 
@@ -39,6 +41,7 @@ class CartViewHolder extends RecyclerView.ViewHolder implements View.OnClickList
         txt_cart_name = itemView.findViewById(R.id.cart_item_name);
         txt_price = itemView.findViewById(R.id.cart_item_price);
         img_cart_count = itemView.findViewById(R.id.cart_item_count);
+        cart_image = itemView.findViewById(R.id.cart_image);
 
         itemView.setOnCreateContextMenuListener(this);
     }
@@ -83,6 +86,9 @@ public class CartAdapter extends RecyclerView.Adapter<CartViewHolder> {
         int price = (Integer.parseInt(listData.get(position).getPrice())) * (Integer.parseInt(listData.get(position).getQuantity()));
         holder.txt_price.setText(fmt.format(price));
         holder.txt_cart_name.setText(listData.get(position).getProductName());
+
+        //Get image from food list
+        Picasso.get().load(listData.get(position).getImage()).resize(50, 50).centerCrop().into(holder.cart_image);
     }
 
     @Override

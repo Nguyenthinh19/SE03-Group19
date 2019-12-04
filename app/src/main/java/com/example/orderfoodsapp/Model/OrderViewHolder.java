@@ -26,7 +26,6 @@ public class OrderViewHolder extends RecyclerView.ViewHolder implements View.OnC
         txtOrderPhone = itemView.findViewById(R.id.order_phone);
 
 
-
         itemView.setOnClickListener(this);
     }
 
@@ -36,6 +35,6 @@ public class OrderViewHolder extends RecyclerView.ViewHolder implements View.OnC
 
     @Override
     public void onClick(View view) {
-        itemClickListener.onClick(view,getAdapterPosition(), false);
+        itemClickListener.onClick(view, getAdapterPosition(), false);
     }
 }

@@ -53,7 +53,6 @@ public class FoodList extends AppCompatActivity {
 
     //Favorites
     Database localDB;
-
     SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
@@ -111,7 +110,6 @@ public class FoodList extends AppCompatActivity {
 
             }
         });
-        //get intent
 
         //search
         materialSearchBar = findViewById(R.id.searchBar);
@@ -234,27 +232,6 @@ public class FoodList extends AppCompatActivity {
                 foodViewHolder.food_name.setText(food.getName());
                 Picasso.get().load(food.getImage()).into(foodViewHolder.food_image);
 
-                //Add Favorites
-                if (localDB.isFavorites(adapter.getRef(i).getKey()))
-                    foodViewHolder.fav_image.setImageResource(R.drawable.ic_favorite_black_24dp);
-
-                //Click to change state of Favorites
-                foodViewHolder.fav_image.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        if (!localDB.isFavorites(adapter.getRef(i).getKey())) {
-                            localDB.addToFavorites(adapter.getRef(i).getKey());
-                            foodViewHolder.fav_image.setImageResource(R.drawable.ic_favorite_black_24dp);
-                            Toast.makeText(FoodList.this, ""+food.getName()+"was added to Favorites", Toast.LENGTH_SHORT).show();
-                        }
-                        else {
-                            localDB.removeFromFavorites(adapter.getRef(i).getKey());
-                            foodViewHolder.fav_image.setImageResource(R.drawable.ic_favorite_black_24dp);
-                            Toast.makeText(FoodList.this, ""+food.getName()+"was removed to Favorites", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-
                 final Food local = food;
                 foodViewHolder.setItemClickListener(new ItemClickListener() {
 
@@ -266,12 +243,32 @@ public class FoodList extends AppCompatActivity {
                         startActivity(foodDetail);
                     }
                 });
+
+//                //Add Favorites
+//                if (localDB.isFavorites(adapter.getRef(i).getKey()))
+//                    foodViewHolder.fav_image.setImageResource(R.drawable.ic_favorite_black_24dp);
+//
+//                //Click to change state of Favorites
+//                foodViewHolder.fav_image.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        if (!localDB.isFavorites(adapter.getRef(i).getKey())) {
+//                            localDB.addToFavorites(adapter.getRef(i).getKey());
+//                            foodViewHolder.fav_image.setImageResource(R.drawable.ic_favorite_black_24dp);
+//                            Toast.makeText(FoodList.this, "" + food.getName() + "was added to Favorites", Toast.LENGTH_SHORT).show();
+//                        } else {
+//                            localDB.removeFromFavorites(adapter.getRef(i).getKey());
+//                            foodViewHolder.fav_image.setImageResource(R.drawable.ic_favorite_black_24dp);
+//                            Toast.makeText(FoodList.this, "" + food.getName() + "was removed to Favorites", Toast.LENGTH_SHORT).show();
+//                        }
+//                    }
+//                });
+
             }
         };
         adapter.startListening();
         adapter.notifyDataSetChanged();
         recyclerView.setAdapter(adapter);
         swipeRefreshLayout.setRefreshing(false);
-
     }
 }

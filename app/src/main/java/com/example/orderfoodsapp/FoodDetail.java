@@ -32,7 +32,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 
-public class FoodDetail extends AppCompatActivity implements RatingDialogListener {
+public class FoodDetail extends AppCompatActivity implements RatingDialogListener
+ {
 
     TextView food_name, food_price, food_description;
     ImageView food_image;
@@ -62,10 +63,8 @@ public class FoodDetail extends AppCompatActivity implements RatingDialogListene
 
         numberButton = (ElegantNumberButton) findViewById(R.id.number_button);
 
-        btnCart = (FloatingActionButton) findViewById(R.id.btnCart);
         btnRating = (FloatingActionButton) findViewById(R.id.btn_rating);
         ratingBar = (RatingBar) findViewById(R.id.ratingBar);
-
         btnRating.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -73,6 +72,7 @@ public class FoodDetail extends AppCompatActivity implements RatingDialogListene
             }
         });
 
+        btnCart = (FloatingActionButton) findViewById(R.id.btnCart);
         btnCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -100,11 +100,9 @@ public class FoodDetail extends AppCompatActivity implements RatingDialogListene
             foodId = getIntent().getStringExtra("FoodId");
         }
         if (!foodId.isEmpty()) {
-            if(Common.isConnectedToInternet(getBaseContext())) {
+            if (Common.isConnectedToInternet(getBaseContext())) {
                 getDetailFood(foodId);
-                getRatingFood(foodId);
-            }
-            else {
+            } else {
                 Toast.makeText(FoodDetail.this, "Please check your connection!", Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -116,15 +114,16 @@ public class FoodDetail extends AppCompatActivity implements RatingDialogListene
         foodRating.addValueEventListener(new ValueEventListener() {
             int count = 0;
             int sum = 0;
+
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot postSnapShot:dataSnapshot.getChildren()) {
+                for (DataSnapshot postSnapShot : dataSnapshot.getChildren()) {
                     Rating item = postSnapShot.getValue(Rating.class);
-                    sum+=Integer.parseInt(item.getRateValue());
+                    sum += Integer.parseInt(item.getRateValue());
                     count++;
                 }
-                if(count != 0) {
-                    float average = sum/count;
+                if (count != 0) {
+                    float average = sum / count;
                     ratingBar.setRating(average);
                 }
             }
@@ -133,7 +132,7 @@ public class FoodDetail extends AppCompatActivity implements RatingDialogListene
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
-        })
+        });
     }
 
     private void showRatingDialog() {
@@ -160,7 +159,6 @@ public class FoodDetail extends AppCompatActivity implements RatingDialogListene
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 currentFood = dataSnapshot.getValue(Food.class);
-
                 Picasso.get().load(currentFood.getImage()).into(food_image);
                 collapsingToolbarLayout.setTitle(currentFood.getName());
                 food_name.setText(currentFood.getName());
@@ -183,17 +181,16 @@ public class FoodDetail extends AppCompatActivity implements RatingDialogListene
     @Override
     public void onPositiveButtonClicked(int value, @NotNull String comments) {
         //Get Rating and upload to firebase
-        final Rating rating = new Rating((Common.currentUser.getPhone(), foodId, String.valueOf(value), comments);
+        final Rating rating = new Rating((Common.currentUser.getPhone()), foodId, String.valueOf(value), comments);
         ratingTbl.child(Common.currentUser.getPhone()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(dataSnapshot.child(Common.currentUser.getPhone()).exists()) {
+                if (dataSnapshot.child(Common.currentUser.getPhone()).exists()) {
                     //Remove old value
                     ratingTbl.child(Common.currentUser.getPhone()).removeValue();
                     //Update new value
                     ratingTbl.child(Common.currentUser.getPhone()).setValue(rating);
-                }
-                else {
+                } else {
                     //Update new value
                     ratingTbl.child(Common.currentUser.getPhone()).setValue(rating);
                 }
@@ -204,6 +201,6 @@ public class FoodDetail extends AppCompatActivity implements RatingDialogListene
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
-        })
+        });
     }
 }

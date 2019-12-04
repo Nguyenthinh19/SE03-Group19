@@ -74,41 +74,46 @@ public class MainActivity extends AppCompatActivity {
         // init firebase
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         final DatabaseReference table_user = database.getReference("User");
+        if (Common.isConnectedToInternet(getBaseContext())) {
+            final ProgressDialog mDialog = new ProgressDialog(MainActivity.this);
+            mDialog.setMessage("Please waiting...");
+            mDialog.show();
+            table_user.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    // Check if user not exit in database
 
-        final ProgressDialog mDialog  = new ProgressDialog(MainActivity.this);
-        mDialog.setMessage("Please waiting...");
-        mDialog.show();
-        table_user.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                // Check if user not exit in database
+                    if (dataSnapshot.child(phone).exists()) {
+                        // Get User Information
+                        mDialog.dismiss();
+                        User user = dataSnapshot.child(phone).getValue(User.class);
+                        user.setPhone(phone);
+                        if (user.getPassword().equals(pwd)) {
+                            {
+                                Intent homeIntent = new Intent(MainActivity.this, Home.class);
+                                Common.currentUser = user;
+                                startActivity(homeIntent);
+                                finish();
+                            }
 
-                if (dataSnapshot.child(phone).exists()) {
-                    // Get User Information
-                    mDialog.dismiss();
-                    User user = dataSnapshot.child(phone).getValue(User.class);
-                    user.setPhone(phone);
-                    if (user.getPassword().equals(pwd)) {
-                        {
-                            Intent homeIntent = new Intent(MainActivity.this,Home.class);
-                            Common.currentUser = user;
-                            startActivity(homeIntent);
-                            finish();
+                        } else {
+                            Toast.makeText(MainActivity.this, "Wrong Password!", Toast.LENGTH_SHORT).show();
                         }
-
                     } else {
-                        Toast.makeText(MainActivity.this, "Wrong Password!", Toast.LENGTH_SHORT).show();
+                        mDialog.dismiss();
+                        Toast.makeText(MainActivity.this, "User not exist!!!", Toast.LENGTH_SHORT).show();
                     }
-                }else {
-                    mDialog.dismiss();
-                    Toast.makeText(MainActivity.this,"User not exist!!!",Toast.LENGTH_SHORT).show();
                 }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
 
-            }
-        });
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+        } else {
+            Toast.makeText(MainActivity.this,"Please check Internet Connection", Toast.LENGTH_SHORT).show();
+            return;
+        }
     }
 }

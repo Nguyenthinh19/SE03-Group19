@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
-    android:elevation="4dp"
+    android:elevation="8dp"
+    app:cardCornerRadius="15dp"
     android:orientation="vertical">
 
     <LinearLayout
@@ -59,7 +60,7 @@
                 android:gravity="center_vertical|start"
                 android:text="Address"
                 android:textAllCaps="true"
-                android:textStyle="italic" />
+                android:textStyle="italic|bold" />
 
 
         </LinearLayout>

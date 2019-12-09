@@ -27,12 +27,14 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class SignUp extends AppCompatActivity {
     MaterialEditText edtPhone, edtName, edtPassword, edtSecureCode;
     Button btnSignUp;
+
     RelativeLayout relativeLayout;
 
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +59,7 @@ public class SignUp extends AppCompatActivity {
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(Common.isConnectedToInternet(getBaseContext())) {
+                if (Common.isConnectedToInternet(getBaseContext())) {
                     final ProgressDialog mDialog = new ProgressDialog(SignUp.this);
                     mDialog.setMessage("Please waiting...");
                     mDialog.show();
@@ -82,8 +84,7 @@ public class SignUp extends AppCompatActivity {
 
                         }
                     });
-                }
-                else {
+                } else {
                     Toast.makeText(SignUp.this, "Please check your connection!", Toast.LENGTH_SHORT).show();
                     return;
                 }

@@ -28,19 +28,19 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class MainActivity extends AppCompatActivity {
 
-        Button btnSignUp, btnSignIn;
-        TextView txtSlogan;
-        RelativeLayout relativeLayout;
+    Button btnSignUp, btnSignIn;
+    TextView txtSlogan;
+    RelativeLayout relativeLayout;
 
 
-        @Override
-        protected void attachBaseContext(Context newBase) {
-            super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
-        }
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
 
-        @Override
-        protected void onCreate(final Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
+    @Override
+    protected void onCreate(final Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
             CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
                     .setDefaultFontPath("fonts/MuseoSansCyrl-500.otf")
                     .setFontAttrId(R.attr.fontPath)
@@ -49,43 +49,43 @@ public class MainActivity extends AppCompatActivity {
             relativeLayout = (RelativeLayout) findViewById(R.id.mhMain);
             relativeLayout.setBackgroundResource(R.drawable.background);
 
+
             btnSignIn = (Button) findViewById(R.id.btnSignIn);
             btnSignUp = (Button) findViewById(R.id.btnSignUp);
             txtSlogan = (TextView) findViewById(R.id.txtSlogan);
-            Typeface face = Typeface.createFromAsset(getAssets(),"fonts/NABILA.TTF");
+            Typeface face = Typeface.createFromAsset(getAssets(), "fonts/NABILA.TTF");
             txtSlogan.setTypeface(face);
 
-            //init paper
-            Paper.init(this);
+        //init paper
+        Paper.init(this);
 
-            btnSignIn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(MainActivity.this, SignIn.class);
-                    startActivity(intent);
+        btnSignIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, SignIn.class);
+                startActivity(intent);
 
 
-                }
-            });
-            btnSignUp.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(MainActivity.this,SignUp.class);
-                    startActivity(intent);
-                }
-            });
-            // Check remember
-            String user =Paper.book().read(Common.USER_KEY);
-            String pwd = Paper.book().read(Common.PWD_KEY);
-            if (user != null && pwd != null) {
-                if (!user.isEmpty()  && !pwd.isEmpty()) {
-                    login(user,pwd);
-                }
             }
-
-
-
+        });
+        btnSignUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, SignUp.class);
+                startActivity(intent);
+            }
+        });
+        // Check remember
+        String user = Paper.book().read(Common.USER_KEY);
+        String pwd = Paper.book().read(Common.PWD_KEY);
+        if (user != null && pwd != null) {
+            if (!user.isEmpty() && !pwd.isEmpty()) {
+                login(user, pwd);
+            }
         }
+
+
+    }
 
     private void login(final String phone, final String pwd) {
         // init firebase
@@ -129,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         } else {
-            Toast.makeText(MainActivity.this,"Please check Internet Connection", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, "Please check Internet Connection", Toast.LENGTH_SHORT).show();
             return;
         }
     }

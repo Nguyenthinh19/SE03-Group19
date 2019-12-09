@@ -19,6 +19,7 @@ public class Database extends SQLiteAssetHelper {
 
     public Database(Context context) {
         super(context, DB_NAME, null, DB_VER);
+        setForcedUpgrade();
     }
 
     public List<Order> getCarts() {

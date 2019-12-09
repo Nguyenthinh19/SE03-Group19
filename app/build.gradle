@@ -56,6 +56,9 @@ dependencies {
     implementation 'com.firebaseui:firebase-ui-database:4.3.2'
     implementation 'com.readystatesoftware.sqliteasset:sqliteassethelper:+'
 
+    //paypal
+    implementation 'com.paypal.sdk:paypal-android-sdk:2.15.3'
+
     //test
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'

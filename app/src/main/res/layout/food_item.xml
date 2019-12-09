@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="200dp"
-    app:cardElevation="4dp"
+    android:layout_height="250dp"
+    app:cardElevation="10dp"
+    app:cardCornerRadius="0dp"
     android:layout_marginBottom="8dp">
 
-    <RelativeLayout
+    <LinearLayout
+        android:orientation="vertical"
+        android:weightSum="5"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <ImageView
@@ -15,19 +17,21 @@
             android:scaleType="centerCrop"
             android:src="@drawable/background"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="0dp"
+            android:layout_weight="4"/>
         <LinearLayout
+            android:layout_margin="10dp"
             android:weightSum="10"
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#4f0e0d0e"
-            android:layout_alignParentBottom="true">
+            android:gravity="center_vertical"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+           >
             <TextView
+
                 android:id="@+id/food_name"
                 android:text="Name of Food"
-                android:textColor="@android:color/white"
-                android:gravity="center"
                 android:textSize="20sp"
                 android:layout_weight="9"
                 android:layout_width="0dp"
@@ -35,11 +39,19 @@
             <ImageView
                 android:id="@+id/fav"
                 android:src="@drawable/ic_favorite_border_black_24dp"
-                android:tint="@android:color/white"
+                android:tint="@color/colorAccent"
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"/>
         </LinearLayout>
-    </RelativeLayout>
+
+        <TextView
+            android:layout_margin="10dp"
+            android:id="@+id/food_price"
+            android:text="100"
+            android:textSize="20sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
 
 </androidx.cardview.widget.CardView>

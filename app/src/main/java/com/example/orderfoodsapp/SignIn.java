@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +30,8 @@ import com.rey.material.widget.CheckBox;
 
 import info.hoang8f.widget.FButton;
 import io.paperdb.Paper;
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class SignIn extends AppCompatActivity {
     EditText edtPhone,edtPassword;
@@ -36,12 +40,25 @@ public class SignIn extends AppCompatActivity {
     TextView txtForgotPwd;
     FirebaseDatabase database;
     DatabaseReference table_user;
+    RelativeLayout relativeLayout;
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                .setDefaultFontPath("fonts/MuseoSansCyrl-500.otf")
+                .setFontAttrId(R.attr.fontPath)
+                .build());
         setContentView(R.layout.activity_sign_in);
+
+        relativeLayout = (RelativeLayout) findViewById(R.id.mhLogin);
+        relativeLayout.setBackgroundResource(R.drawable.background);
 
         ckbRemember = (CheckBox) findViewById(R.id.ckbRemeber);
         edtPassword =(MaterialEditText) findViewById(R.id.edtPassword);

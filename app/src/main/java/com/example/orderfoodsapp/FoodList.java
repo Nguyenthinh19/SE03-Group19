@@ -89,7 +89,7 @@ public class FoodList extends AppCompatActivity {
         //recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
 
         //swipe to refresh layout
-        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swip_laypout);
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_layout);
         swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary,
                 android.R.color.holo_green_dark,
                 android.R.color.holo_orange_dark,

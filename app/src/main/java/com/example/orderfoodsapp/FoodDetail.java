@@ -48,7 +48,7 @@ public class FoodDetail extends AppCompatActivity implements RatingDialogListene
     FirebaseDatabase database;
     DatabaseReference foods;
     DatabaseReference ratingTbl;
-
+    private ValueEventListener mListener;
     Food currentFood;
 
     String foodId = "";
@@ -80,6 +80,7 @@ public class FoodDetail extends AppCompatActivity implements RatingDialogListene
         btnRating.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 showRatingDialog();
             }
         });
@@ -115,6 +116,7 @@ public class FoodDetail extends AppCompatActivity implements RatingDialogListene
         if (!foodId.isEmpty()) {
             if (Common.isConnectedToInternet(getBaseContext())) {
                 getDetailFood(foodId);
+                getRatingFood(foodId);
             } else {
                 Toast.makeText(FoodDetail.this, "Please check your connection!", Toast.LENGTH_SHORT).show();
                 return;
@@ -124,7 +126,7 @@ public class FoodDetail extends AppCompatActivity implements RatingDialogListene
 
     private void getRatingFood(String foodId) {
         Query foodRating = ratingTbl.orderByChild("foodId").equalTo(foodId);
-        foodRating.addValueEventListener(new ValueEventListener() {
+        mListener = foodRating.addValueEventListener(new ValueEventListener() {
             int count = 0;
             int sum = 0;
 
@@ -148,7 +150,13 @@ public class FoodDetail extends AppCompatActivity implements RatingDialogListene
         });
     }
 
-    private void showRatingDialog() {
+     @Override
+     protected void onDestroy() {
+         super.onDestroy();
+         ratingTbl.orderByChild("foodId").equalTo(foodId).removeEventListener(mListener);
+     }
+
+     private void showRatingDialog() {
         new AppRatingDialog.Builder()
                 .setPositiveButtonText("submit")
                 .setNegativeButtonText("Cancel")

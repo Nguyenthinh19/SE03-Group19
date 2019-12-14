@@ -163,7 +163,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
                     public void onClick(View view, int position, boolean isLongClick) {
                         Intent foodList = new Intent(Home.this, FoodList.class);
                         foodList.putExtra("CategoryId", adapter.getRef(position).getKey());
-                        startActivity(foodList);
+                         startActivity(foodList);
                     }
                 });
             }
@@ -177,7 +177,6 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         };
 
         Paper.init(this);
-
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {

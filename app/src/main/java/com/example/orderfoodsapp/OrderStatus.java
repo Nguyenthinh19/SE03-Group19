@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 
 import com.example.orderfoodsapp.Common.Common;
 import com.example.orderfoodsapp.Interface.ItemClickListener;
-import com.example.orderfoodsapp.Model.OrderViewHolder;
+import com.example.orderfoodsapp.ViewHolder.OrderViewHolder;
 import com.example.orderfoodsapp.Model.Request;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
@@ -42,7 +42,7 @@ public class OrderStatus extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
-                .setDefaultFontPath("fonts/MuseoSansCyrl-500.otf")
+                .setDefaultFontPath("fonts/Gothic.ttf")
                 .setFontAttrId(R.attr.fontPath)
                 .build());
 

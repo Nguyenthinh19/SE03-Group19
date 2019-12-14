@@ -58,7 +58,7 @@ public class Cart extends AppCompatActivity {
     FirebaseDatabase database;
     DatabaseReference requests;
 
-    TextView txtTotalPrice;
+    public TextView txtTotalPrice;
     FButton btnPlace;
 
     List<Order> cart = new ArrayList<>();
@@ -81,7 +81,7 @@ public class Cart extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
-                .setDefaultFontPath("fonts/MuseoSansCyrl-500.otf")
+                .setDefaultFontPath("fonts/Gothic.ttf")
                 .setFontAttrId(R.attr.fontPath)
                 .build());
         setContentView(R.layout.activity_cart);
@@ -192,7 +192,7 @@ public class Cart extends AppCompatActivity {
                                 .setValue(request);
 
                         //Delete cart
-                        new Database(getBaseContext()).cleanCart();
+                        new Database(getBaseContext()).cleanCart(Common.currentUser.getPhone());
                         Toast.makeText(Cart.this, "Thank you, Order Place", Toast.LENGTH_SHORT).show();
                         finish();
 
@@ -208,7 +208,7 @@ public class Cart extends AppCompatActivity {
     }
 
     private void loadListFood() {
-        cart = new Database(this).getCarts();
+        cart = new Database(this).getCarts(Common.currentUser.getPhone());
         adapter = new CartAdapter(cart, this);
         adapter.notifyDataSetChanged();
         recyclerView.setAdapter(adapter);
@@ -217,7 +217,7 @@ public class Cart extends AppCompatActivity {
         int total = 0;
         for (Order order : cart)
             total += (Integer.parseInt(order.getPrice())) * (Integer.parseInt(order.getQuantity()));
-        Locale locale = new Locale("en", "US");
+        Locale locale = new Locale("vi", "VN");
         NumberFormat fmt = NumberFormat.getCurrencyInstance(locale);
 
         txtTotalPrice.setText(fmt.format(total));
@@ -232,7 +232,7 @@ public class Cart extends AppCompatActivity {
 
     private void deleteCart(int position) {
         cart.remove(position);
-        new Database(this).cleanCart();
+        new Database(this).cleanCart(Common.currentUser.getPhone());
         for (Order item : cart)
             new Database(this).addToCart(item);
         //refresh

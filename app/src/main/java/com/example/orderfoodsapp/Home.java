@@ -70,7 +70,6 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
     TextView txtFullName;
 
     RecyclerView recycler_menu;
-    RecyclerView.LayoutManager layoutManager;
 
     FirebaseRecyclerAdapter<Category, MenuViewHolder> adapter;
 
@@ -78,7 +77,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
 
     //slider
     HashMap<String, String> image_list;
-    SliderLayout mSilder;
+    SliderLayout mSlider;
     DrawerLayout drawerLayout;
 
 
@@ -91,7 +90,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
-                .setDefaultFontPath("fonts/Gothic.ttf")
+                .setDefaultFontPath("fonts/MuseoSansCyrl-500.otf")
                 .setFontAttrId(R.attr.fontPath)
                 .build());
         setContentView(R.layout.activity_home);
@@ -105,7 +104,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         drawerLayout.setBackgroundResource(R.drawable.background);
 
         // view
-        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swip_laypout);
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_layout);
         swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary,
                 android.R.color.holo_green_dark,
                 android.R.color.holo_orange_dark,
@@ -116,7 +115,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
                 if (Common.isConnectedToInternet(getBaseContext())) {
                     loadMenu();
                 } else {
-                    Toast.makeText(getBaseContext(), "Please check your connection", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getBaseContext(), "Kiểm tra lại kết nối Internet", Toast.LENGTH_SHORT).show();
                     return;
                 }
             }
@@ -127,7 +126,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
                 if (Common.isConnectedToInternet(getBaseContext())) {
                     loadMenu();
                 } else {
-                    Toast.makeText(getBaseContext(), "Please check your connection", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getBaseContext(), "Kiểm tra lại kết nối Internet", Toast.LENGTH_SHORT).show();
                     return;
                 }
             }
@@ -177,7 +176,6 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
 
         Paper.init(this);
 
-
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -209,7 +207,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         if (Common.isConnectedToInternet(this))
             loadMenu();
         else {
-            Toast.makeText(this, "Please check your connection!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Kiểm tra lại kết nối Internet!", Toast.LENGTH_SHORT).show();
             return;
         }
         // setupSlide
@@ -217,7 +215,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
     }
 
     private void setupSlider() {
-        mSilder = (SliderLayout) findViewById(R.id.slide);
+        mSlider = (SliderLayout) findViewById(R.id.slide);
         image_list = new HashMap<>();
         final DatabaseReference banners = database.getReference("Banner");
         banners.addValueEventListener(new ValueEventListener() {
@@ -245,7 +243,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
                             });
                     textSliderView.bundle(new Bundle());
                     textSliderView.getBundle().putString("FoodId", idOfFood);
-                    mSilder.addSlider(textSliderView);
+                    mSlider.addSlider(textSliderView);
                     banners.removeEventListener(this);
 
                 }
@@ -256,10 +254,10 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
 
             }
         });
-        mSilder.setPresetTransformer(SliderLayout.Transformer.Background2Foreground);
-        mSilder.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
-        mSilder.setCustomAnimation(new DescriptionAnimation());
-        mSilder.setDuration(4000);
+        mSlider.setPresetTransformer(SliderLayout.Transformer.Background2Foreground);
+        mSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
+        mSlider.setCustomAnimation(new DescriptionAnimation());
+        mSlider.setDuration(4000);
     }
 
     @Override
@@ -277,7 +275,6 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         recycler_menu.scheduleLayoutAnimation();
 
     }
-
 
     @Override
     public void onBackPressed() {
@@ -335,11 +332,10 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
     private void showChangePasswordDialog() {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(Home.this);
-        alertDialog.setTitle("CHANGE PASSWORD");
-        alertDialog.setMessage("Please fill all infomation");
+        alertDialog.setTitle("Đổi mật khẩu");
+        alertDialog.setMessage("Hãy điền đủ thông tin !");
 
         LayoutInflater inflater = LayoutInflater.from(this);
         View layout_pwd = inflater.inflate(R.layout.change_password_layout, null);
@@ -350,14 +346,14 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
 
         alertDialog.setView(layout_pwd);
 
-        alertDialog.setPositiveButton("CHANGE", new DialogInterface.OnClickListener() {
+        alertDialog.setPositiveButton("Thay đổi", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 // Change password here
                 final android.app.AlertDialog waitingDialog = new SpotsDialog(Home.this);
                 waitingDialog.show();
 
-                //check oldpassword
+                //check old-password
                 if (edtPassword.getText().toString().equals(Common.currentUser.getPassword())) {
                     if (edtNewPassword.getText().toString().equals(edtRepeatPassword.getText().toString())) {
                         Map<String, Object> passwordUpdate = new HashMap<>();
@@ -371,7 +367,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
                                     public void onComplete(@NonNull Task<Void> task) {
                                         changeCurrentUser();
                                         waitingDialog.dismiss();
-                                        Toast.makeText(Home.this, "Password was update", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(Home.this, "Mật khẩu đã được cập nhật", Toast.LENGTH_SHORT).show();
                                     }
                                 })
                                 .addOnFailureListener(new OnFailureListener() {
@@ -382,13 +378,13 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
                                 });
                     } else {
                         waitingDialog.dismiss();
-                        Toast.makeText(Home.this, "New password doesn't match", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Home.this, "Mật khẩu không khớp", Toast.LENGTH_SHORT).show();
                     }
                 }
 
             }
         });
-        alertDialog.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+        alertDialog.setNegativeButton("Huỷ", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
@@ -422,7 +418,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
                 }
             });
         } else {
-            Toast.makeText(Home.this, "Plaese check your connection !!!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Home.this, "Kiểm tra lại kết nối Internet !!!", Toast.LENGTH_SHORT).show();
             return;
         }
     }

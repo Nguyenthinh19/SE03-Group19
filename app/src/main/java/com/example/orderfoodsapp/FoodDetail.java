@@ -28,13 +28,15 @@ import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 import com.stepstone.apprating.AppRatingDialog;
 import com.stepstone.apprating.listener.RatingDialogListener;
+
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 import org.jetbrains.annotations.NotNull;
+
 import java.util.Arrays;
 
-public class FoodDetail extends AppCompatActivity implements RatingDialogListener
- {
+public class FoodDetail extends AppCompatActivity implements RatingDialogListener {
 
     TextView food_name, food_price, food_description;
     ImageView food_image;
@@ -62,7 +64,7 @@ public class FoodDetail extends AppCompatActivity implements RatingDialogListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
-                .setDefaultFontPath("fonts/Gothic.ttf")
+                .setDefaultFontPath("fonts/MuseoSansCyrl-500.otf")
                 .setFontAttrId(R.attr.fontPath)
                 .build());
         setContentView(R.layout.activity_food_detail);
@@ -97,7 +99,7 @@ public class FoodDetail extends AppCompatActivity implements RatingDialogListene
                         currentFood.getDiscount(),
                         currentFood.getImage()
                 ));
-                Toast.makeText(FoodDetail.this, "Added to Cart", Toast.LENGTH_SHORT).show();
+                Toast.makeText(FoodDetail.this, "Đã thêm vào giỏ", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -118,7 +120,7 @@ public class FoodDetail extends AppCompatActivity implements RatingDialogListene
                 getDetailFood(foodId);
                 getRatingFood(foodId);
             } else {
-                Toast.makeText(FoodDetail.this, "Please check your connection!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(FoodDetail.this, "Kiểm tra lại kết nối Internet!", Toast.LENGTH_SHORT).show();
                 return;
             }
         }
@@ -150,23 +152,23 @@ public class FoodDetail extends AppCompatActivity implements RatingDialogListene
         });
     }
 
-     @Override
-     protected void onDestroy() {
-         super.onDestroy();
-         ratingTbl.orderByChild("foodId").equalTo(foodId).removeEventListener(mListener);
-     }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ratingTbl.orderByChild("foodId").equalTo(foodId).removeEventListener(mListener);
+    }
 
-     private void showRatingDialog() {
+    private void showRatingDialog() {
         new AppRatingDialog.Builder()
-                .setPositiveButtonText("submit")
-                .setNegativeButtonText("Cancel")
-                .setNoteDescriptions(Arrays.asList("Very Bad", "Not Good", "OK", "Very Good", "Excellent"))
+                .setPositiveButtonText("Đồng ý")
+                .setNegativeButtonText("Huỷ")
+                .setNoteDescriptions(Arrays.asList("Rất tệ", "Tạm ổn", "Ổn", "Rất tốt", "Tuyệt vời"))
                 .setDefaultRating(1)
-                .setTitle("Rate this food")
-                .setDescription("Please select some stars and give your feedback")
+                .setTitle("Đánh giá món ăn")
+                .setDescription("Hãy chọn đánh giá và để lại phản hồi cho chúng tôi")
                 .setTitleTextColor(R.color.colorPrimary)
                 .setDescriptionTextColor(R.color.colorPrimary)
-                .setHint("Please write your comment here ...")
+                .setHint("Đánh giá ...")
                 .setHintTextColor(R.color.colorPrimary)
                 .setCommentTextColor(android.R.color.white)
                 .setCommentBackgroundColor(R.color.colorPrimaryDark)
@@ -215,7 +217,7 @@ public class FoodDetail extends AppCompatActivity implements RatingDialogListene
                     //Update new value
                     ratingTbl.child(Common.currentUser.getPhone()).setValue(rating);
                 }
-                Toast.makeText(FoodDetail.this, "Thank you for your rating!!!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(FoodDetail.this, "Cảm ơn vì đã đánh giá!!!", Toast.LENGTH_SHORT).show();
             }
 
             @Override

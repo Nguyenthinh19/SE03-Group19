@@ -70,7 +70,7 @@ public class FoodList extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
-                .setDefaultFontPath("fonts/Gothic.ttf")
+                .setDefaultFontPath("fonts/MuseoSansCyrl-500.otf")
                 .setFontAttrId(R.attr.fontPath)
                 .build());
         setContentView(R.layout.activity_food_list);
@@ -86,8 +86,6 @@ public class FoodList extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-
-        //recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
 
         //swipe to refresh layout
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_layout);
@@ -105,7 +103,7 @@ public class FoodList extends AppCompatActivity {
                     if (Common.isConnectedToInternet(getBaseContext()))
                         loadListFood(categoryId);
                     else {
-                        Toast.makeText(FoodList.this, "Please check your connection!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(FoodList.this, "Kiểm tra lại kết nối Internet!", Toast.LENGTH_SHORT).show();
                         return;
                     }
                 }
@@ -122,7 +120,7 @@ public class FoodList extends AppCompatActivity {
                     if (Common.isConnectedToInternet(getBaseContext()))
                         loadListFood(categoryId);
                     else {
-                        Toast.makeText(FoodList.this, "Please check your connection!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(FoodList.this, "Kiểm tra lại kết nối Internet!", Toast.LENGTH_SHORT).show();
                         return;
                     }
                 }
@@ -132,7 +130,7 @@ public class FoodList extends AppCompatActivity {
 
         //search
         materialSearchBar = findViewById(R.id.searchBar);
-        materialSearchBar.setHint("Search Somethings...");
+        materialSearchBar.setHint("Nhập để tìm kiếm...");
         loadSuggest();
         materialSearchBar.setLastSuggestions(suggestList);
         materialSearchBar.setCardViewElevation(10);
@@ -186,7 +184,6 @@ public class FoodList extends AppCompatActivity {
     private void startSearch(CharSequence text) {
         FirebaseRecyclerOptions<Food> options =
                 new FirebaseRecyclerOptions.Builder<Food>().setQuery(foodList.orderByChild("Name").equalTo(text.toString()), Food.class).build(); // compare name
-
         searchAdapter = new FirebaseRecyclerAdapter<Food, FoodViewHolder>(options) {
             @Override
             protected void onBindViewHolder(@NonNull FoodViewHolder foodViewHolder, int i, @NonNull Food food) {
@@ -264,7 +261,6 @@ public class FoodList extends AppCompatActivity {
                 });
 
                 //Quick Cart
-
                 foodViewHolder.quick_cart.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -279,7 +275,7 @@ public class FoodList extends AppCompatActivity {
                                     food.getDiscount(),
                                     food.getImage()
                             ));
-                            Toast.makeText(FoodList.this, "Added to Cart", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(FoodList.this, "Đã thêm vào giỏ", Toast.LENGTH_SHORT).show();
                         } else {
                             new Database(getBaseContext()).increaseCart(Common.currentUser.getPhone(), adapter.getRef(i).getKey());
                         }
@@ -298,11 +294,11 @@ public class FoodList extends AppCompatActivity {
                         if (!localDB.isFavorites(adapter.getRef(i).getKey(), Common.currentUser.getPhone())) {
                             localDB.addToFavorites(adapter.getRef(i).getKey(), Common.currentUser.getPhone());
                             foodViewHolder.fav_image.setImageResource(R.drawable.ic_favorite_black_24dp);
-                            Toast.makeText(FoodList.this, "" + food.getName() + " was added to Favorites", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(FoodList.this, "" + food.getName() + " đã thêm vào thích", Toast.LENGTH_SHORT).show();
                         } else {
                             localDB.removeFromFavorites(adapter.getRef(i).getKey(), Common.currentUser.getPhone());
                             foodViewHolder.fav_image.setImageResource(R.drawable.ic_favorite_border_black_24dp);
-                            Toast.makeText(FoodList.this, "" + food.getName() + " was removed to Favorites", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(FoodList.this, "" + food.getName() + " đã bỏ thích", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

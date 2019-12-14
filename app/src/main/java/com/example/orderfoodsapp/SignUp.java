@@ -40,7 +40,7 @@ public class SignUp extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
-                .setDefaultFontPath("fonts/Gothic.ttf")
+                .setDefaultFontPath("fonts/MuseoSansCyrl-500.otf")
                 .setFontAttrId(R.attr.fontPath)
                 .build());
         setContentView(R.layout.activity_sign_up);
@@ -61,22 +61,20 @@ public class SignUp extends AppCompatActivity {
             public void onClick(View v) {
                 if (Common.isConnectedToInternet(getBaseContext())) {
                     final ProgressDialog mDialog = new ProgressDialog(SignUp.this);
-                    mDialog.setMessage("Please waiting...");
+                    mDialog.setMessage("Xin chờ ...");
                     mDialog.show();
                     table_user.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             if (dataSnapshot.child(edtPhone.getText().toString()).exists()) {
                                 mDialog.dismiss();
-                                Toast.makeText(SignUp.this, "Phone Number already register", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(SignUp.this, "SĐT đã được đăng ký ", Toast.LENGTH_SHORT).show();
                             } else {
                                 mDialog.dismiss();
                                 User user = new User(edtName.getText().toString(), edtPassword.getText().toString(), edtSecureCode.getText().toString());
                                 table_user.child(edtPhone.getText().toString()).setValue(user);
-                                Toast.makeText(SignUp.this, "Sign up successfully!", Toast.LENGTH_SHORT).show();
-
+                                Toast.makeText(SignUp.this, "Đăng ký thành công!", Toast.LENGTH_SHORT).show();
                             }
-
                         }
 
                         @Override
@@ -85,7 +83,7 @@ public class SignUp extends AppCompatActivity {
                         }
                     });
                 } else {
-                    Toast.makeText(SignUp.this, "Please check your connection!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignUp.this, "Kiểm tra lại kết nối!", Toast.LENGTH_SHORT).show();
                     return;
                 }
             }

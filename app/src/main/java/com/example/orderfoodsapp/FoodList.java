@@ -22,6 +22,7 @@ import com.example.orderfoodsapp.Common.Common;
 import com.example.orderfoodsapp.Database.Database;
 import com.example.orderfoodsapp.Interface.ItemClickListener;
 import com.example.orderfoodsapp.Model.Food;
+import com.example.orderfoodsapp.Model.Order;
 import com.example.orderfoodsapp.ViewHolder.FoodViewHolder;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
@@ -69,7 +70,7 @@ public class FoodList extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
-                .setDefaultFontPath("fonts/MuseoSansCyrl-500.otf")
+                .setDefaultFontPath("fonts/Gothic.ttf")
                 .setFontAttrId(R.attr.fontPath)
                 .build());
         setContentView(R.layout.activity_food_list);
@@ -138,7 +139,6 @@ public class FoodList extends AppCompatActivity {
         materialSearchBar.addTextChangeListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
@@ -150,7 +150,6 @@ public class FoodList extends AppCompatActivity {
                         suggest.add(search);
                 }
                 materialSearchBar.setLastSuggestions(suggest);
-
             }
 
             @Override
@@ -168,7 +167,6 @@ public class FoodList extends AppCompatActivity {
 
             @Override
             public void onSearchConfirmed(CharSequence text) {
-
                 startSearch(text);
             }
 
@@ -177,6 +175,12 @@ public class FoodList extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (adapter != null) adapter.startListening();
     }
 
     private void startSearch(CharSequence text) {
@@ -230,7 +234,6 @@ public class FoodList extends AppCompatActivity {
                 });
     }
 
-
     private void loadListFood(String categoryId) {
         FirebaseRecyclerOptions<Food> options = new FirebaseRecyclerOptions.Builder<Food>()
                 .setQuery(foodList.orderByChild("MenuId").equalTo(categoryId), Food.class)
@@ -246,7 +249,7 @@ public class FoodList extends AppCompatActivity {
             @Override
             protected void onBindViewHolder(@NonNull final FoodViewHolder foodViewHolder, final int i, @NonNull final Food food) {
                 foodViewHolder.food_name.setText(food.getName());
-                foodViewHolder.food_price.setText(String.format("$ %s", food.getPrice().toString()));
+                foodViewHolder.food_price.setText(String.format("%s đ", food.getPrice()));
                 Picasso.get().load(food.getImage()).into(foodViewHolder.food_image);
 
                 final Food local = food;
@@ -260,20 +263,44 @@ public class FoodList extends AppCompatActivity {
                     }
                 });
 
+                //Quick Cart
+
+                foodViewHolder.quick_cart.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        boolean isExists = new Database(getBaseContext()).checkFoodExits(adapter.getRef(i).getKey(), Common.currentUser.getPhone());
+                        if (!isExists) {
+                            new Database(getBaseContext()).addToCart(new Order(
+                                    Common.currentUser.getPhone(),
+                                    adapter.getRef(i).getKey(),
+                                    food.getName(),
+                                    "1",
+                                    food.getPrice(),
+                                    food.getDiscount(),
+                                    food.getImage()
+                            ));
+                            Toast.makeText(FoodList.this, "Added to Cart", Toast.LENGTH_SHORT).show();
+                        } else {
+                            new Database(getBaseContext()).increaseCart(Common.currentUser.getPhone(), adapter.getRef(i).getKey());
+                        }
+
+                    }
+                });
+
                 //Add Favorites
-                if (localDB.isFavorites(adapter.getRef(i).getKey(),Common.currentUser.getPhone()))
+                if (localDB.isFavorites(adapter.getRef(i).getKey(), Common.currentUser.getPhone()))
                     foodViewHolder.fav_image.setImageResource(R.drawable.ic_favorite_black_24dp);
 
                 //Click to change state of Favorites
                 foodViewHolder.fav_image.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if (!localDB.isFavorites(adapter.getRef(i).getKey(),Common.currentUser.getPhone())) {
-                            localDB.addToFavorites(adapter.getRef(i).getKey(),Common.currentUser.getPhone());
+                        if (!localDB.isFavorites(adapter.getRef(i).getKey(), Common.currentUser.getPhone())) {
+                            localDB.addToFavorites(adapter.getRef(i).getKey(), Common.currentUser.getPhone());
                             foodViewHolder.fav_image.setImageResource(R.drawable.ic_favorite_black_24dp);
                             Toast.makeText(FoodList.this, "" + food.getName() + " was added to Favorites", Toast.LENGTH_SHORT).show();
                         } else {
-                            localDB.removeFromFavorites(adapter.getRef(i).getKey(),Common.currentUser.getPhone());
+                            localDB.removeFromFavorites(adapter.getRef(i).getKey(), Common.currentUser.getPhone());
                             foodViewHolder.fav_image.setImageResource(R.drawable.ic_favorite_border_black_24dp);
                             Toast.makeText(FoodList.this, "" + food.getName() + " was removed to Favorites", Toast.LENGTH_SHORT).show();
                         }

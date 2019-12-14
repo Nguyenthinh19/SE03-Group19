@@ -10,4 +10,6 @@
     <color name="overLayBackground">#7f333639</color>
     <color name="overLayActiveBar">#0e0d0e</color>
 
+    <color name="bgRowBackground">#FA315B</color>
+
 </resources>

@@ -13,8 +13,7 @@ import com.example.orderfoodsapp.R;
 public class FoodViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
     public TextView food_name, food_price;
-    public ImageView food_image;
-    public ImageView fav_image;
+    public ImageView food_image, fav_image, quick_cart;
 
     private ItemClickListener itemClickListener;
 
@@ -25,6 +24,7 @@ public class FoodViewHolder extends RecyclerView.ViewHolder implements View.OnCl
         food_price = itemView.findViewById(R.id.food_price);
         food_image = itemView.findViewById(R.id.food_image);
         fav_image = itemView.findViewById(R.id.fav);
+        quick_cart = itemView.findViewById(R.id.btn_quick_cart);
 
         itemView.setOnClickListener(this);
     }

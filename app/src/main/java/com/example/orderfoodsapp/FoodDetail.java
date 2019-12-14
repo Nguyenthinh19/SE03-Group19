@@ -36,7 +36,6 @@ import java.util.Arrays;
 public class FoodDetail extends AppCompatActivity implements RatingDialogListener
  {
 
-
     TextView food_name, food_price, food_description;
     ImageView food_image;
     CollapsingToolbarLayout collapsingToolbarLayout;
@@ -63,7 +62,7 @@ public class FoodDetail extends AppCompatActivity implements RatingDialogListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
-                .setDefaultFontPath("fonts/MuseoSansCyrl-500.otf")
+                .setDefaultFontPath("fonts/Gothic.ttf")
                 .setFontAttrId(R.attr.fontPath)
                 .build());
         setContentView(R.layout.activity_food_detail);
@@ -90,6 +89,7 @@ public class FoodDetail extends AppCompatActivity implements RatingDialogListene
             @Override
             public void onClick(View v) {
                 new Database(getBaseContext()).addToCart(new Order(
+                        Common.currentUser.getPhone(),
                         foodId,
                         currentFood.getName(),
                         numberButton.getNumber(),

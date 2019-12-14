@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
             CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
-                    .setDefaultFontPath("fonts/MuseoSansCyrl-500.otf")
+                    .setDefaultFontPath("fonts/Gothic.ttf")
                     .setFontAttrId(R.attr.fontPath)
                     .build());
             setContentView(R.layout.activity_main);

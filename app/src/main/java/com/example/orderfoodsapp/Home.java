@@ -77,7 +77,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
     SwipeRefreshLayout swipeRefreshLayout;
 
     //slider
-    HashMap<String,String> image_list;
+    HashMap<String, String> image_list;
     SliderLayout mSilder;
     DrawerLayout drawerLayout;
 
@@ -91,11 +91,10 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
-                .setDefaultFontPath("fonts/MuseoSansCyrl-500.otf")
+                .setDefaultFontPath("fonts/Gothic.ttf")
                 .setFontAttrId(R.attr.fontPath)
                 .build());
         setContentView(R.layout.activity_home);
-
 
 
         final Toolbar toolbar = findViewById(R.id.toolbar);
@@ -202,7 +201,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         txtFullName.setText(Common.currentUser.getName());
 
         recycler_menu = (RecyclerView) findViewById(R.id.recycler_menu);
-        recycler_menu.setLayoutManager(new GridLayoutManager(this,2));
+        recycler_menu.setLayoutManager(new GridLayoutManager(this, 2));
         LayoutAnimationController controller = AnimationUtils.loadLayoutAnimation(recycler_menu.getContext(),
                 R.anim.layout_fall_down);
         recycler_menu.setLayoutAnimation(controller);
@@ -218,20 +217,20 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
     }
 
     private void setupSlider() {
-        mSilder = (SliderLayout)findViewById(R.id.slide);
-        image_list =  new HashMap<>();
+        mSilder = (SliderLayout) findViewById(R.id.slide);
+        image_list = new HashMap<>();
         final DatabaseReference banners = database.getReference("Banner");
         banners.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for(DataSnapshot postSnapshot: dataSnapshot.getChildren()){
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     Banner banner = postSnapshot.getValue(Banner.class);
-                    image_list.put(banner.getName()+"_"+banner.getId(),banner.getImage());
+                    image_list.put(banner.getName() + "_" + banner.getId(), banner.getImage());
                 }
-                for (String key:image_list.keySet()){
+                for (String key : image_list.keySet()) {
                     String[] keySplit = key.split("_");
                     String nameOfFood = keySplit[0];
-                    String idOfFood =keySplit[1];
+                    String idOfFood = keySplit[1];
 
                     final TextSliderView textSliderView = new TextSliderView(getBaseContext());
                     textSliderView.description(nameOfFood)
@@ -239,13 +238,13 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
                             .setOnSliderClickListener(new BaseSliderView.OnSliderClickListener() {
                                 @Override
                                 public void onSliderClick(BaseSliderView slider) {
-                                    Intent intent = new Intent(Home.this,FoodDetail.class);
+                                    Intent intent = new Intent(Home.this, FoodDetail.class);
                                     intent.putExtras(textSliderView.getBundle());
                                     startActivity(intent);
                                 }
                             });
                     textSliderView.bundle(new Bundle());
-                    textSliderView.getBundle().putString("FoodId",idOfFood);
+                    textSliderView.getBundle().putString("FoodId", idOfFood);
                     mSilder.addSlider(textSliderView);
                     banners.removeEventListener(this);
 
@@ -263,6 +262,12 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         mSilder.setDuration(4000);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (adapter != null) adapter.startListening();
+    }
+
     private void loadMenu() {
 
         adapter.startListening();
@@ -272,7 +277,6 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         recycler_menu.scheduleLayoutAnimation();
 
     }
-
 
 
     @Override

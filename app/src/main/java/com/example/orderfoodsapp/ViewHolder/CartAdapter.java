@@ -58,7 +58,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartViewHolder> {
             }
         });
 
-        Locale locale = new Locale("vi", "VN");
+        Locale locale = new Locale("en", "US");
         NumberFormat fmt = NumberFormat.getCurrencyInstance(locale);
         int price = (Integer.parseInt(listData.get(position).getPrice()));
         holder.txt_price.setText(fmt.format(price));

@@ -52,19 +52,19 @@ public class SignIn extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
-                .setDefaultFontPath("fonts/Gothic.ttf")
+                .setDefaultFontPath("fonts/MuseoSansCyrl-500.otf")
                 .setFontAttrId(R.attr.fontPath)
                 .build());
         setContentView(R.layout.activity_sign_in);
 
         relativeLayout = (RelativeLayout) findViewById(R.id.mhLogin);
-        relativeLayout.setBackgroundResource(R.drawable.background);
+        relativeLayout.setBackgroundResource(R.drawable.my_bg);
 
-        ckbRemember = (CheckBox) findViewById(R.id.ckbRemeber);
+        ckbRemember = (CheckBox) findViewById(R.id.ckbRemember);
         edtPassword = (MaterialEditText) findViewById(R.id.edtPassword);
         edtPhone = (MaterialEditText) findViewById(R.id.edtPhone);
         btnSignIn = (FButton) findViewById(R.id.btnSignIn);
-        txtForgotPwd = (TextView) findViewById(R.id.txtFogotpwd);
+        txtForgotPwd = (TextView) findViewById(R.id.txtForgotpwd);
 
         // init paper
         Paper.init(this);
@@ -99,7 +99,7 @@ public class SignIn extends AppCompatActivity {
                     }
                     // save user & password
                     final ProgressDialog mDialog = new ProgressDialog(SignIn.this);
-                    mDialog.setMessage("Please waiting...");
+                    mDialog.setMessage("Xin chờ ...");
                     mDialog.show();
                     table_user.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
@@ -121,11 +121,11 @@ public class SignIn extends AppCompatActivity {
                                     }
 
                                 } else {
-                                    Toast.makeText(SignIn.this, "Wrong Password!", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(SignIn.this, "Sai mật khẩu!", Toast.LENGTH_SHORT).show();
                                 }
                             } else {
                                 mDialog.dismiss();
-                                Toast.makeText(SignIn.this, "User not exist!!!", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(SignIn.this, "Tài khoản không tồn tại!!!", Toast.LENGTH_SHORT).show();
                             }
                         }
 
@@ -135,7 +135,7 @@ public class SignIn extends AppCompatActivity {
                         }
                     });
                 } else {
-                    Toast.makeText(SignIn.this, "Please check your connection!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignIn.this, "Kiểm tra lại kết nối!", Toast.LENGTH_SHORT).show();
                     return;
                 }
             }
@@ -144,8 +144,8 @@ public class SignIn extends AppCompatActivity {
 
     private void showFogotPwdDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Forgot Password");
-        builder.setMessage("Enter your secure code");
+        builder.setTitle("Quên mật khẩu");
+        builder.setMessage("Nhập mã bảo mật");
         LayoutInflater inflater = this.getLayoutInflater();
         View forgot_view = inflater.inflate(R.layout.forgot_password_layout, null);
         builder.setView(forgot_view);
@@ -153,18 +153,18 @@ public class SignIn extends AppCompatActivity {
         MaterialEditText editPhone = (MaterialEditText) forgot_view.findViewById(R.id.edtPhone);
         final MaterialEditText editSecureCode = (MaterialEditText) forgot_view.findViewById(R.id.edtSecureCode);
 
-        builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                // check if user avaliable
+                // check if user available
                 table_user.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         User user = dataSnapshot.child(edtPhone.getText().toString()).getValue(User.class);
                         if (user.getSecureCode().equals(editSecureCode.getText().toString())) {
-                            Toast.makeText(SignIn.this, "Your password : " + user.getPassword(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(SignIn.this, "Mật khẩu : " + user.getPassword(), Toast.LENGTH_LONG).show();
                         } else {
-                            Toast.makeText(SignIn.this, "Wrong sercure code", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SignIn.this, "Mã bảo mật không đúng", Toast.LENGTH_SHORT).show();
 
                         }
                     }
@@ -176,7 +176,7 @@ public class SignIn extends AppCompatActivity {
                 });
             }
         });
-        builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 

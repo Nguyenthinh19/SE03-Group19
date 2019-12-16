@@ -103,6 +103,12 @@ public class Database extends SQLiteAssetHelper {
         db.execSQL(query);
     }
 
+    public void removeFromCart(String productId, String phone) {
+        SQLiteDatabase db = getReadableDatabase();
+        String query = String.format("DELETE FROM OrderDetail WHERE UserPhone='%s' AND ProductId='%s';", phone,productId);
+        db.execSQL(query);
+    }
+
     public void increaseCart(String userPhone, String foodId) {
         SQLiteDatabase db = getReadableDatabase();
         String query = String.format("UPDATE OrderDetail SET Quantity=(Quantity+1) WHERE UserPhone='%s' AND ProductID='%s';", userPhone, foodId);
@@ -133,4 +139,5 @@ public class Database extends SQLiteAssetHelper {
         cursor.close();
         return true;
     }
+
 }

@@ -18,7 +18,7 @@
 
         <com.rengwuxian.materialedittext.MaterialEditText
             android:id="@+id/edtPhone"
-            android:hint="Phone Number"
+            android:hint="SĐT"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColorHint="@android:color/white"
@@ -34,7 +34,7 @@
             />
         <com.rengwuxian.materialedittext.MaterialEditText
             android:id="@+id/edtPassword"
-            android:hint="Password"
+            android:hint="Mật khẩu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColorHint="@android:color/white"
@@ -46,10 +46,7 @@
             app:met_floatingLabel="highlight"
             app:met_maxCharacters="11"
             app:met_primaryColor="@android:color/white"
-            app:met_singleLineEllipsis="true"
-
-            />
-
+            app:met_singleLineEllipsis="true"/>
 
        <LinearLayout
            android:orientation="horizontal"
@@ -57,29 +54,27 @@
            android:layout_width="match_parent"
            android:layout_height="wrap_content">
            <com.rey.material.widget.CheckBox
-               android:id="@+id/ckbRemeber"
+               android:id="@+id/ckbRemember"
                style="@style/Material.Drawable.CheckBox"
                android:layout_weight="1"
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
                android:gravity="center_vertical"
-               android:text="Remember me"
+               android:text="Ghi nhớ"
                android:textColor="@android:color/white"
                app:cbd_strokeColor="@android:color/white"
                app:cbd_tickColor="@color/colorPrimaryDark" />
            <TextView
-               android:id="@+id/txtFogotpwd"
+               android:id="@+id/txtForgotpwd"
                android:textColor="@android:color/white"
                android:text="@string/forgot_pwd"
                android:layout_weight="1"
                android:layout_width="0dp"
                android:layout_height="wrap_content"/>
        </LinearLayout>
-
-
     </LinearLayout>
-    <info.hoang8f.widget.FButton
 
+    <info.hoang8f.widget.FButton
         android:shadowColor="@android:color/black"
         android:layout_alignParentBottom="true"
         android:layout_marginLeft="8dp"

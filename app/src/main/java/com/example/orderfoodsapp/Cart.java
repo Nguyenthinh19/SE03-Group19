@@ -3,14 +3,15 @@ package com.example.orderfoodsapp;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 
 import android.content.Context;
 import android.app.Activity;
 import android.content.Intent;
 
+import android.graphics.Color;
 import android.os.Bundle;
 
 import android.content.DialogInterface;
@@ -19,14 +20,19 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.orderfoodsapp.Common.Common;
 import com.example.orderfoodsapp.Common.Config;
 import com.example.orderfoodsapp.Database.Database;
+import com.example.orderfoodsapp.Helper.RecyclerItemTouchHelper;
+import com.example.orderfoodsapp.Interface.RecyclerItemTouchHelperListener;
 import com.example.orderfoodsapp.Model.Order;
 import com.example.orderfoodsapp.ViewHolder.CartAdapter;
+import com.example.orderfoodsapp.ViewHolder.CartViewHolder;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.example.orderfoodsapp.Model.Request;
@@ -49,9 +55,9 @@ import info.hoang8f.widget.FButton;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class Cart extends AppCompatActivity {
+public class Cart extends AppCompatActivity implements RecyclerItemTouchHelperListener {
 
-    private static final int PAYPAL_REQUEST_CODE = 9999 ;
+    private static final int PAYPAL_REQUEST_CODE = 9999;
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
 
@@ -64,6 +70,8 @@ public class Cart extends AppCompatActivity {
     List<Order> cart = new ArrayList<>();
 
     CartAdapter adapter;
+
+    RelativeLayout rootLayout;
 
     //paypal payment
     static PayPalConfiguration config = new PayPalConfiguration()
@@ -81,7 +89,7 @@ public class Cart extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
-                .setDefaultFontPath("fonts/Gothic.ttf")
+                .setDefaultFontPath("fonts/MuseoSansCyrl-500.otf")
                 .setFontAttrId(R.attr.fontPath)
                 .build());
         setContentView(R.layout.activity_cart);
@@ -100,6 +108,11 @@ public class Cart extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
+        rootLayout = findViewById(R.id.rootLayout);
+
+        //Swipe to delete
+        ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new RecyclerItemTouchHelper(0, ItemTouchHelper.LEFT, this);
+        new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerView);
 
         txtTotalPrice = findViewById(R.id.total);
         btnPlace = findViewById(R.id.btnPlaceOrder);
@@ -110,7 +123,7 @@ public class Cart extends AppCompatActivity {
                 if (cart.size() > 0)
                     showAlertDialog();
                 else
-                    Toast.makeText(Cart.this, "Your cart is Empty!!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Cart.this, "Giỏ hàng trống!!", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -119,8 +132,8 @@ public class Cart extends AppCompatActivity {
 
     private void showAlertDialog() {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(Cart.this);
-        alertDialog.setTitle("Just one step");
-        alertDialog.setMessage("Enter your address: ");
+        alertDialog.setTitle("Thông tin");
+        alertDialog.setMessage("Địa chỉ: ");
 
         final EditText edtAddress = new EditText(Cart.this);
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
@@ -131,31 +144,31 @@ public class Cart extends AppCompatActivity {
         alertDialog.setView(edtAddress);
         alertDialog.setIcon(R.drawable.ic_shopping_cart_black_24dp);
 
-        alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+        alertDialog.setPositiveButton("Đồng ý", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
-                //Show Paypal to payment
+                //Show Pay-pal to payment
 
                 //get Address and Comment from Alert Dialog
                 address = edtAddress.getText().toString();
 
                 String formatAmount = txtTotalPrice.getText().toString()
-                                        .replace("$","")
-                                        .replace(",","");
+                        .replace("đ", "")
+                        .replace(",", "");
 
                 PayPalPayment payPalPayment = new PayPalPayment(new BigDecimal(formatAmount),
-                        "USD",
+                        "vnd",
                         "Order Foods App",
                         PayPalPayment.PAYMENT_INTENT_SALE);
                 Intent intent = new Intent(getApplicationContext(), PaymentActivity.class);
-                intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION,config);
-                intent.putExtra(PaymentActivity.EXTRA_PAYMENT,payPalPayment);
-                startActivityForResult(intent,PAYPAL_REQUEST_CODE);
+                intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, config);
+                intent.putExtra(PaymentActivity.EXTRA_PAYMENT, payPalPayment);
+                startActivityForResult(intent, PAYPAL_REQUEST_CODE);
             }
         });
 
-        alertDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+        alertDialog.setNegativeButton("Huỷ", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
@@ -193,7 +206,7 @@ public class Cart extends AppCompatActivity {
 
                         //Delete cart
                         new Database(getBaseContext()).cleanCart(Common.currentUser.getPhone());
-                        Toast.makeText(Cart.this, "Thank you, Order Place", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Cart.this, "Cảm ơn đã đặt hàng", Toast.LENGTH_SHORT).show();
                         finish();
 
                     } catch (JSONException e) {
@@ -201,9 +214,9 @@ public class Cart extends AppCompatActivity {
                     }
                 }
             } else if (resultCode == Activity.RESULT_CANCELED)
-                Toast.makeText(this, "Payment Canceled", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Huỷ thanh toán", Toast.LENGTH_SHORT).show();
             else if (resultCode == PaymentActivity.RESULT_EXTRAS_INVALID)
-                Toast.makeText(this, "Invalid Payment", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Thanh toán không hợp lệ", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -238,4 +251,46 @@ public class Cart extends AppCompatActivity {
         //refresh
         loadListFood();
     }
+
+    public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, int position) {
+        if (viewHolder instanceof CartViewHolder) {
+            String name = ((CartAdapter) recyclerView.getAdapter()).getItem(viewHolder.getAdapterPosition()).getProductName();
+
+            final Order deleteItem = ((CartAdapter) recyclerView.getAdapter()).getItem(viewHolder.getAdapterPosition());
+            final int deleteIndex = viewHolder.getAdapterPosition();
+
+            adapter.removeItem(deleteIndex);
+            new Database(getBaseContext()).removeFromCart(deleteItem.getProductId(), Common.currentUser.getPhone());
+
+            int total = 0;
+            List<Order> orders = new Database(getBaseContext()).getCarts(Common.currentUser.getPhone());
+            for (Order item : orders) {
+                total += (Integer.parseInt(item.getPrice())) * (Integer.parseInt(item.getQuantity()));
+                Locale locale = new Locale("vi", "VN");
+                NumberFormat fmt = NumberFormat.getCurrencyInstance(locale);
+                txtTotalPrice.setText(fmt.format(total));
+            }
+
+            Snackbar snackbar = Snackbar.make(rootLayout, name + " đã xoá khỏi giỏ hàng", Snackbar.LENGTH_LONG);
+            snackbar.setAction("Hoàn tác", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    adapter.restoreItem(deleteIndex,deleteItem);
+                    new Database(getBaseContext()).addToCart(deleteItem);
+
+                    int total = 0;
+                    List<Order> orders = new Database(getBaseContext()).getCarts(Common.currentUser.getPhone());
+                    for (Order item : orders) {
+                        total += (Integer.parseInt(item.getPrice())) * (Integer.parseInt(item.getQuantity()));
+                        Locale locale = new Locale("vi", "VN");
+                        NumberFormat fmt = NumberFormat.getCurrencyInstance(locale);
+                        txtTotalPrice.setText(fmt.format(total));
+                    }
+                }
+            });
+            snackbar.setActionTextColor(Color.RED);
+            snackbar.show();
+        }
+    }
+
 }

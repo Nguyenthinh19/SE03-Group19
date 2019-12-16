@@ -42,13 +42,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
             CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
-                    .setDefaultFontPath("fonts/Gothic.ttf")
+                    .setDefaultFontPath("fonts/MuseoSansCyrl-500.otf")
                     .setFontAttrId(R.attr.fontPath)
                     .build());
             setContentView(R.layout.activity_main);
             relativeLayout = (RelativeLayout) findViewById(R.id.mhMain);
-            relativeLayout.setBackgroundResource(R.drawable.background);
-
+            relativeLayout.setBackgroundResource(R.drawable.my_bg);
 
             btnSignIn = (Button) findViewById(R.id.btnSignIn);
             btnSignUp = (Button) findViewById(R.id.btnSignUp);
@@ -64,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, SignIn.class);
                 startActivity(intent);
+
 
 
             }
@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
         final DatabaseReference table_user = database.getReference("User");
         if (Common.isConnectedToInternet(getBaseContext())) {
             final ProgressDialog mDialog = new ProgressDialog(MainActivity.this);
-            mDialog.setMessage("Please waiting...");
+            mDialog.setMessage("Xin chờ ...");
             mDialog.show();
             table_user.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
@@ -114,11 +114,11 @@ public class MainActivity extends AppCompatActivity {
                             }
 
                         } else {
-                            Toast.makeText(MainActivity.this, "Wrong Password!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this, "Sai mật khẩu!", Toast.LENGTH_SHORT).show();
                         }
                     } else {
                         mDialog.dismiss();
-                        Toast.makeText(MainActivity.this, "User not exist!!!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "Tài khoản không tồn tại!!!", Toast.LENGTH_SHORT).show();
                     }
                 }
 
@@ -129,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         } else {
-            Toast.makeText(MainActivity.this, "Please check Internet Connection", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, "Kiểm tra lại kết nối", Toast.LENGTH_SHORT).show();
             return;
         }
     }

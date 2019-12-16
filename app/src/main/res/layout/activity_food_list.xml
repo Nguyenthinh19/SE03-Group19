@@ -5,6 +5,7 @@
     android:id="@+id/swipe_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/my_bg"
     tools:context=".FoodList">
 
     <RelativeLayout
@@ -17,16 +18,14 @@
         android:id="@+id/searchBar"
         android:layout_alignParentTop="true"
         app:mt_speechMode="false"
-        app:mt_hint="Enter"
-        />
+        app:mt_hint="Enter"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_height="match_parent"
         android:layout_width="match_parent"
         android:id="@+id/recycler_food"
         android:layout_below="@+id/searchBar"
-        android:scrollbars="vertical"
-        />
+        android:scrollbars="vertical"/>
     </RelativeLayout>
 
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

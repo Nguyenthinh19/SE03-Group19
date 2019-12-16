@@ -148,23 +148,23 @@ public class Cart extends AppCompatActivity implements RecyclerItemTouchHelperLi
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
-                //Show Pay-pal to payment
+                //Show Paypal to payment
 
                 //get Address and Comment from Alert Dialog
                 address = edtAddress.getText().toString();
 
                 String formatAmount = txtTotalPrice.getText().toString()
-                        .replace("đ", "")
-                        .replace(",", "");
+                        .replace("$","")
+                        .replace(",","");
 
                 PayPalPayment payPalPayment = new PayPalPayment(new BigDecimal(formatAmount),
-                        "vnd",
+                        "USD",
                         "Order Foods App",
                         PayPalPayment.PAYMENT_INTENT_SALE);
                 Intent intent = new Intent(getApplicationContext(), PaymentActivity.class);
-                intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, config);
-                intent.putExtra(PaymentActivity.EXTRA_PAYMENT, payPalPayment);
-                startActivityForResult(intent, PAYPAL_REQUEST_CODE);
+                intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION,config);
+                intent.putExtra(PaymentActivity.EXTRA_PAYMENT,payPalPayment);
+                startActivityForResult(intent,PAYPAL_REQUEST_CODE);
             }
         });
 
@@ -230,7 +230,7 @@ public class Cart extends AppCompatActivity implements RecyclerItemTouchHelperLi
         int total = 0;
         for (Order order : cart)
             total += (Integer.parseInt(order.getPrice())) * (Integer.parseInt(order.getQuantity()));
-        Locale locale = new Locale("vi", "VN");
+        Locale locale = new Locale("en", "US");
         NumberFormat fmt = NumberFormat.getCurrencyInstance(locale);
 
         txtTotalPrice.setText(fmt.format(total));
@@ -266,7 +266,7 @@ public class Cart extends AppCompatActivity implements RecyclerItemTouchHelperLi
             List<Order> orders = new Database(getBaseContext()).getCarts(Common.currentUser.getPhone());
             for (Order item : orders) {
                 total += (Integer.parseInt(item.getPrice())) * (Integer.parseInt(item.getQuantity()));
-                Locale locale = new Locale("vi", "VN");
+                Locale locale = new Locale("en", "US");
                 NumberFormat fmt = NumberFormat.getCurrencyInstance(locale);
                 txtTotalPrice.setText(fmt.format(total));
             }
@@ -282,7 +282,7 @@ public class Cart extends AppCompatActivity implements RecyclerItemTouchHelperLi
                     List<Order> orders = new Database(getBaseContext()).getCarts(Common.currentUser.getPhone());
                     for (Order item : orders) {
                         total += (Integer.parseInt(item.getPrice())) * (Integer.parseInt(item.getQuantity()));
-                        Locale locale = new Locale("vi", "VN");
+                        Locale locale = new Locale("en", "US");
                         NumberFormat fmt = NumberFormat.getCurrencyInstance(locale);
                         txtTotalPrice.setText(fmt.format(total));
                     }

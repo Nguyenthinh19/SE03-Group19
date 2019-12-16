@@ -246,7 +246,7 @@ public class FoodList extends AppCompatActivity {
             @Override
             protected void onBindViewHolder(@NonNull final FoodViewHolder foodViewHolder, final int i, @NonNull final Food food) {
                 foodViewHolder.food_name.setText(food.getName());
-                foodViewHolder.food_price.setText(String.format("%s đ", food.getPrice()));
+                foodViewHolder.food_price.setText(String.format("%s $", food.getPrice()));
                 Picasso.get().load(food.getImage()).into(foodViewHolder.food_image);
 
                 final Food local = food;

@@ -35,10 +35,6 @@ import com.example.orderfoodsapp.Model.User;
 import com.example.orderfoodsapp.ViewHolder.MenuViewHolder;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.glide.slider.library.SliderLayout;
-import com.glide.slider.library.animations.DescriptionAnimation;
-import com.glide.slider.library.slidertypes.BaseSliderView;
-import com.glide.slider.library.slidertypes.TextSliderView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -58,6 +54,10 @@ import java.util.HashSet;
 import java.util.Map;
 
 import dmax.dialog.SpotsDialog;
+import edmt.dev.edmtslider.Animations.DescriptionAnimation;
+import edmt.dev.edmtslider.SliderLayout;
+import edmt.dev.edmtslider.SliderTypes.BaseSliderView;
+import edmt.dev.edmtslider.SliderTypes.TextSliderView;
 import io.paperdb.Paper;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -237,11 +237,12 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
                             .setOnSliderClickListener(new BaseSliderView.OnSliderClickListener() {
                                 @Override
                                 public void onSliderClick(BaseSliderView slider) {
-                                    Intent intent = new Intent(Home.this, FoodDetail.class);
+                                    Intent intent = new Intent(Home.this,FoodDetail.class);
                                     intent.putExtras(textSliderView.getBundle());
                                     startActivity(intent);
                                 }
                             });
+
                     textSliderView.bundle(new Bundle());
                     textSliderView.getBundle().putString("FoodId", idOfFood);
                     mSlider.addSlider(textSliderView);
@@ -289,7 +290,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         System.exit(1);
     }
 
-    @Override
+  /*  @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.home, menu);
         return true;
@@ -300,7 +301,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         if (item.getItemId() == R.id.refresh)
             loadMenu();
         return super.onOptionsItemSelected(item);
-    }
+    }*/
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {

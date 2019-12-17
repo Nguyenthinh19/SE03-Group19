@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-            <com.glide.slider.library.SliderLayout
+            <edmt.dev.edmtslider.SliderLayout
                 android:id="@+id/slide"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"

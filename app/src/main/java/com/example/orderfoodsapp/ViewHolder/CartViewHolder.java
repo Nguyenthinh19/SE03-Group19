@@ -18,6 +18,7 @@ public class CartViewHolder extends RecyclerView.ViewHolder implements View.OnCl
     public TextView txt_cart_name, txt_price;
     public ImageView cart_image;
     public ElegantNumberButton btn_quantity;
+
     public RelativeLayout view_bg;
     public LinearLayout view_fg;
 

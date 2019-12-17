@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.example.orderfoodsapp.Common.Common;
 import com.example.orderfoodsapp.Database.Database;
 import com.example.orderfoodsapp.Interface.ItemClickListener;
+import com.example.orderfoodsapp.Model.Favorites;
 import com.example.orderfoodsapp.Model.Food;
 import com.example.orderfoodsapp.Model.Order;
 import com.example.orderfoodsapp.ViewHolder.FoodViewHolder;
@@ -291,8 +292,19 @@ public class FoodList extends AppCompatActivity {
                 foodViewHolder.fav_image.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+
+                        Favorites favorites = new Favorites();
+                        favorites.setFoodId(adapter.getRef(i).getKey());
+                        favorites.setFoodName(food.getName());
+                        favorites.setFoodDescription(food.getDescription());
+                        favorites.setFoodDiscount(food.getDiscount());
+                        favorites.setFoodImage(food.getImage());
+                        favorites.setFoodMenuId(food.getMenuId());
+                        favorites.setUserPhone(Common.currentUser.getPhone());
+                        favorites.setFoodPrice(food.getPrice());
+
                         if (!localDB.isFavorites(adapter.getRef(i).getKey(), Common.currentUser.getPhone())) {
-                            localDB.addToFavorites(adapter.getRef(i).getKey(), Common.currentUser.getPhone());
+                            localDB.addToFavorites(favorites);
                             foodViewHolder.fav_image.setImageResource(R.drawable.ic_favorite_black_24dp);
                             Toast.makeText(FoodList.this, "" + food.getName() + " đã thêm vào thích", Toast.LENGTH_SHORT).show();
                         } else {

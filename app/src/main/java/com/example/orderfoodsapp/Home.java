@@ -330,6 +330,8 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
             startActivity(mainActivity);
         } else if (id == R.id.nav_change_pwd) {
             showChangePasswordDialog();
+        } else if (id == R.id.nav_favorites) {
+            startActivity(new Intent(Home.this, FavoritesActivity.class));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

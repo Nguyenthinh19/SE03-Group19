@@ -10,7 +10,8 @@ import com.example.orderfoodsapp.Interface.ItemClickListener;
 import com.example.orderfoodsapp.R;
 
 
-public class OrderViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+public class OrderViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener,
+        View.OnLongClickListener{
 
     public TextView txtOrderId, txtOrderStatus, txtOrderPhone, txtOrderAddress, txtOrderName, txtOrderFood, txtOrderTotal;
 
@@ -25,6 +26,7 @@ public class OrderViewHolder extends RecyclerView.ViewHolder implements View.OnC
         txtOrderPhone = itemView.findViewById(R.id.order_phone);
 
         itemView.setOnClickListener(this);
+        itemView.setOnLongClickListener(this);
     }
 
     public void setItemClickListener(ItemClickListener itemClickListener) {
@@ -34,5 +36,11 @@ public class OrderViewHolder extends RecyclerView.ViewHolder implements View.OnC
     @Override
     public void onClick(View view) {
         itemClickListener.onClick(view, getAdapterPosition(), false);
+    }
+
+    @Override
+    public boolean onLongClick(View view) {
+        itemClickListener.onClick(view, getAdapterPosition(), true);
+        return true;
     }
 }

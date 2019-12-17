@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -71,7 +72,7 @@ public class OrderStatus extends AppCompatActivity {
 
         adapter = new FirebaseRecyclerAdapter<Request, OrderViewHolder>(options) {
             @Override
-            protected void onBindViewHolder(@NonNull OrderViewHolder orderViewHolder, int i, @NonNull Request request) {
+            protected void onBindViewHolder(@NonNull OrderViewHolder orderViewHolder, int i, @NonNull final Request request) {
                 orderViewHolder.txtOrderId.setText(adapter.getRef(i).getKey());
                 orderViewHolder.txtOrderStatus.setText(Common.convertCodeToStatus(request.getStatus()));
                 orderViewHolder.txtOrderAddress.setText(request.getAddress());
@@ -81,8 +82,16 @@ public class OrderStatus extends AppCompatActivity {
 //                orderViewHolder.txtOrderFood.setText(request.getFoods().toString());
                 orderViewHolder.setItemClickListener(new ItemClickListener() {
                     @Override
-                    public void onClick(View view, int position, boolean isLongClik) {
+                    public void onClick(View view, int position, boolean isLongClick) {
+                        if(!isLongClick) {
 
+                        }
+                        else {
+                            Intent orderDetail = new Intent(OrderStatus.this,OrderDetail.class);
+                            Common.currentRequest = request ;
+                            orderDetail.putExtra("OrderId", adapter.getRef(position).getKey());
+                            startActivity(orderDetail);
+                        }
                     }
                 });
 

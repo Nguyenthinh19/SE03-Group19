@@ -16,10 +16,12 @@ import android.os.Bundle;
 
 import android.content.DialogInterface;
 
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,6 +43,7 @@ import com.paypal.android.sdk.payments.PayPalPayment;
 import com.paypal.android.sdk.payments.PayPalService;
 import com.paypal.android.sdk.payments.PaymentActivity;
 import com.paypal.android.sdk.payments.PaymentConfirmation;
+import com.rengwuxian.materialedittext.MaterialEditText;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -78,6 +81,7 @@ public class Cart extends AppCompatActivity implements RecyclerItemTouchHelperLi
             .environment(PayPalConfiguration.ENVIRONMENT_SANDBOX) //using Sandbox account
             .clientId(Config.PAYPAL_CLIENT_ID);
     String address;
+    String comment;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -135,13 +139,17 @@ public class Cart extends AppCompatActivity implements RecyclerItemTouchHelperLi
         alertDialog.setTitle("Thông tin");
         alertDialog.setMessage("Địa chỉ: ");
 
-        final EditText edtAddress = new EditText(Cart.this);
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.MATCH_PARENT
-        );
-        edtAddress.setLayoutParams(lp);
-        alertDialog.setView(edtAddress);
+        LayoutInflater inflater = this.getLayoutInflater();
+        View order_address_comment = inflater.inflate(R.layout.order_address_comment,null);
+
+        final MaterialEditText edtAddress = (MaterialEditText)order_address_comment.findViewById(R.id.edtAddress);
+        final MaterialEditText edtComment = (MaterialEditText)order_address_comment.findViewById(R.id.edtComment);
+
+        //payment method radio
+        final RadioButton rdiCOD = (RadioButton) order_address_comment.findViewById(R.id.rdiCOD);
+        final RadioButton rdiPaypal = (RadioButton) order_address_comment.findViewById(R.id.rdiPaypal);
+
+        alertDialog.setView(order_address_comment);
         alertDialog.setIcon(R.drawable.ic_shopping_cart_black_24dp);
 
         alertDialog.setPositiveButton("Đồng ý", new DialogInterface.OnClickListener() {
@@ -152,19 +160,55 @@ public class Cart extends AppCompatActivity implements RecyclerItemTouchHelperLi
 
                 //get Address and Comment from Alert Dialog
                 address = edtAddress.getText().toString();
+                comment = edtComment.getText().toString();
 
-                String formatAmount = txtTotalPrice.getText().toString()
-                        .replace("$","")
-                        .replace(",","");
+                //check payment method
+                if(!rdiCOD.isChecked() && !rdiPaypal.isChecked()) {
+                    Toast.makeText(Cart.this,"Chọn một phương thức thanh toán!",Toast.LENGTH_SHORT).show();
 
-                PayPalPayment payPalPayment = new PayPalPayment(new BigDecimal(formatAmount),
-                        "USD",
-                        "Order Foods App",
-                        PayPalPayment.PAYMENT_INTENT_SALE);
-                Intent intent = new Intent(getApplicationContext(), PaymentActivity.class);
-                intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION,config);
-                intent.putExtra(PaymentActivity.EXTRA_PAYMENT,payPalPayment);
-                startActivityForResult(intent,PAYPAL_REQUEST_CODE);
+                   /* getFragmentManager().beginTransaction()
+                            .remove(getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment))
+                            .commit();
+                    return;*/
+                }
+                else if(rdiPaypal.isChecked()) {
+
+                    String formatAmount = txtTotalPrice.getText().toString()
+                            .replace("$", "")
+                            .replace(",", "");
+
+                    PayPalPayment payPalPayment = new PayPalPayment(new BigDecimal(formatAmount),
+                            "USD",
+                            "Order Foods App",
+                            PayPalPayment.PAYMENT_INTENT_SALE);
+                    Intent intent = new Intent(getApplicationContext(), PaymentActivity.class);
+                    intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, config);
+                    intent.putExtra(PaymentActivity.EXTRA_PAYMENT, payPalPayment);
+                    startActivityForResult(intent, PAYPAL_REQUEST_CODE);
+                }
+                else if(rdiCOD.isChecked()){
+                    // Create new Request
+                    Request request;
+                    request = new Request(
+                            Common.currentUser.getPhone(),
+                            Common.currentUser.getName(),
+                            address,
+                            txtTotalPrice.getText().toString(),
+                            "0",
+                            comment,
+                            "COD",
+                            "Unpaid",
+                            cart
+                    );
+
+                    requests.child(String.valueOf(System.currentTimeMillis()))
+                            .setValue(request);
+
+                    //Delete cart
+                    new Database(getBaseContext()).cleanCart(Common.currentUser.getPhone());
+                    Toast.makeText(Cart.this, "Cảm ơn đã đặt hàng", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
             }
         });
 
@@ -197,6 +241,8 @@ public class Cart extends AppCompatActivity implements RecyclerItemTouchHelperLi
                                 address,
                                 txtTotalPrice.getText().toString(),
                                 "0",
+                                comment,
+                                "Paypal",
                                 jsonObject.getJSONObject("response").getString("state"),
                                 cart
                         );

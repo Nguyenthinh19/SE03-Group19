@@ -28,7 +28,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:gravity="center_vertical|start"
-                android:text="#111111"
+                android:text="id đơn hàng"
                 android:textAllCaps="true"
                 android:textStyle="bold" />
 
@@ -38,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:gravity="center_vertical|start"
-                android:text="Status"
+                android:text="Trạng thái: "
                 android:textAllCaps="true"
                 android:textStyle="italic" />
 
@@ -58,10 +58,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:gravity="center_vertical|start"
-                android:text="Address"
+                android:text="Địa chỉ: "
                 android:textAllCaps="true"
                 android:textStyle="italic|bold" />
-
 
         </LinearLayout>
 

@@ -15,17 +15,9 @@ import com.example.orderfoodsapp.Database.Database;
 import com.example.orderfoodsapp.Helper.RecyclerItemTouchHelper;
 import com.example.orderfoodsapp.Interface.RecyclerItemTouchHelperListener;
 import com.example.orderfoodsapp.Model.Favorites;
-import com.example.orderfoodsapp.Model.Order;
 import com.example.orderfoodsapp.ViewHolder.FavoritesAdapter;
 import com.example.orderfoodsapp.ViewHolder.FavoritesViewHolder;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.rey.material.widget.SnackBar;
-
-import java.text.NumberFormat;
-import java.util.List;
-import java.util.Locale;
 
 public class FavoritesActivity extends AppCompatActivity implements RecyclerItemTouchHelperListener {
 

@@ -75,11 +75,8 @@ public class OrderStatus extends AppCompatActivity {
             protected void onBindViewHolder(@NonNull OrderViewHolder orderViewHolder, int i, @NonNull final Request request) {
                 orderViewHolder.txtOrderId.setText(adapter.getRef(i).getKey());
                 orderViewHolder.txtOrderStatus.setText(Common.convertCodeToStatus(request.getStatus()));
-                orderViewHolder.txtOrderAddress.setText(request.getAddress());
-                orderViewHolder.txtOrderPhone.setText(request.getPhone());
-//                orderViewHolder.txtOrderName.setText(request.getName());
-//                orderViewHolder.txtOrderTotal.setText(request.getTotal());
-//                orderViewHolder.txtOrderFood.setText(request.getFoods().toString());
+                orderViewHolder.txtOrderAddress.setText(String.format("Địa chỉ: %s",request.getAddress()));
+                orderViewHolder.txtOrderPhone.setText(String.format("SĐT: %s",request.getPhone()));
                 orderViewHolder.setItemClickListener(new ItemClickListener() {
                     @Override
                     public void onClick(View view, int position, boolean isLongClick) {
@@ -110,6 +107,4 @@ public class OrderStatus extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
 
     }
-
-
 }

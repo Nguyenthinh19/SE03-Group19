@@ -17,8 +17,8 @@
             <edmt.dev.edmtslider.SliderLayout
                 android:id="@+id/slide"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_marginBottom="20dp"/>
+                android:layout_height="300dp"
+                android:layout_marginBottom="10dp"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"

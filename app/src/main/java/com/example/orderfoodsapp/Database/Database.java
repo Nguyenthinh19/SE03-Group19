@@ -119,7 +119,7 @@ public class Database extends SQLiteAssetHelper {
     //Favorite
     public void addToFavorites(Favorites food) {
         SQLiteDatabase db = getReadableDatabase();
-        String query = String.format("INSERT INTO Favorites(FoodId, FoodName, FoodPrice, FoodMenuId, FoodImage, FoodDiscount, FoodDescription, UserPhone) VALUES('%s','%s','%s','%s''%s','%s''%s','%s');",
+        String query = String.format("INSERT INTO Favorites(FoodId, FoodName, FoodPrice, FoodMenuId, FoodImage, FoodDiscount, FoodDescription, UserPhone) VALUES('%s','%s','%s','%s','%s','%s','%s','%s');",
                 food.getFoodId(),
                 food.getFoodName(),
                 food.getFoodPrice(),

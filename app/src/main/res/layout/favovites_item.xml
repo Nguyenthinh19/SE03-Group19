@@ -24,7 +24,7 @@
 
         <TextView
             android:layout_toLeftOf="@+id/delete_icon"
-            android:text="Delete"
+            android:text="Xoá"
             android:textSize="13sp"
             android:textColor="@android:color/white"
             android:layout_marginRight="10dp"
@@ -36,7 +36,7 @@
 
     <LinearLayout
         android:id="@+id/view_foreground"
-        android:layout_margin="8dp"
+        android:layout_margin="6dp"
         android:background="@android:color/white"
         android:orientation="vertical"
         android:weightSum="5"
@@ -59,7 +59,6 @@
             android:gravity="center_vertical"
             android:layout_height="0dp"
             android:layout_weight="1">
-
             <TextView
                 android:id="@+id/food_name"
                 android:text="Name of Food"
@@ -67,13 +66,11 @@
                 android:layout_weight="9"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"/>
-
         </LinearLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
             <TextView
                 android:layout_margin="10dp"
                 android:id="@+id/food_price"
@@ -91,7 +88,6 @@
                 android:layout_marginRight="18.5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
-
         </RelativeLayout>
     </LinearLayout>
 

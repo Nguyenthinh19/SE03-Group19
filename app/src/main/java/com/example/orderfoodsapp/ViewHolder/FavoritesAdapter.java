@@ -44,7 +44,7 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull FavoritesViewHolder foodViewHolder, final int position) {
         foodViewHolder.food_name.setText(favoritesList.get(position).getFoodName());
-        foodViewHolder.food_price.setText(String.format("%s $", favoritesList.get(position).getFoodPrice().toString()));
+        foodViewHolder.food_price.setText(String.format("%s vnd", favoritesList.get(position).getFoodPrice().toString()));
         Picasso.get().load(favoritesList.get(position).getFoodImage());
 
         //Quick Cart
@@ -61,7 +61,6 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesViewHolder> 
                             favoritesList.get(position).getFoodPrice(),
                             favoritesList.get(position).getFoodDiscount(),
                             favoritesList.get(position).getFoodImage()
-
                     ));
 
                 } else {

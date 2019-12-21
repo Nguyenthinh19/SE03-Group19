@@ -247,7 +247,7 @@ public class FoodList extends AppCompatActivity {
             @Override
             protected void onBindViewHolder(@NonNull final FoodViewHolder foodViewHolder, final int i, @NonNull final Food food) {
                 foodViewHolder.food_name.setText(food.getName());
-                foodViewHolder.food_price.setText(String.format("%s $", food.getPrice()));
+                foodViewHolder.food_price.setText(String.format("%s vnd", food.getPrice()));
                 Picasso.get().load(food.getImage()).into(foodViewHolder.food_image);
 
                 final Food local = food;
@@ -306,7 +306,7 @@ public class FoodList extends AppCompatActivity {
                         if (!localDB.isFavorites(adapter.getRef(i).getKey(), Common.currentUser.getPhone())) {
                             localDB.addToFavorites(favorites);
                             foodViewHolder.fav_image.setImageResource(R.drawable.ic_favorite_black_24dp);
-                            Toast.makeText(FoodList.this, "" + food.getName() + " đã thêm vào thích", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(FoodList.this, "" + food.getName() + " đã thích", Toast.LENGTH_SHORT).show();
                         } else {
                             localDB.removeFromFavorites(adapter.getRef(i).getKey(), Common.currentUser.getPhone());
                             foodViewHolder.fav_image.setImageResource(R.drawable.ic_favorite_border_black_24dp);

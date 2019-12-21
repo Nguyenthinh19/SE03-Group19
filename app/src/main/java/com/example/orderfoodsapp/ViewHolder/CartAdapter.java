@@ -32,7 +32,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartViewHolder> {
     @Override
     public CartViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(cart);
-        View itemView = inflater.inflate(R.layout.cart_layout, parent, false);
+        View itemView = inflater.inflate(R.layout.cart_item, parent, false);
         return new CartViewHolder(itemView);
     }
 
@@ -51,7 +51,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartViewHolder> {
                 List<Order> orders = new Database(cart).getCarts(Common.currentUser.getPhone());
                 for (Order item : orders) {
                     total += (Integer.parseInt(item.getPrice())) * (Integer.parseInt(item.getQuantity()));
-                    Locale locale = new Locale("vi", "VN");
+                    Locale locale = new Locale("en", "US");
                     NumberFormat fmt = NumberFormat.getCurrencyInstance(locale);
                     cart.txtTotalPrice.setText(fmt.format(total));
                 }

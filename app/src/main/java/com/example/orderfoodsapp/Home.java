@@ -288,7 +288,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         System.exit(1);
     }
 
-  /*  @Override
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.home, menu);
         return true;
@@ -296,10 +296,10 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.refresh)
-            loadMenu();
+        if (item.getItemId() == R.id.menu_search)
+            startActivity(new Intent(Home.this,SearchActivity.class));
         return super.onOptionsItemSelected(item);
-    }*/
+    }
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {

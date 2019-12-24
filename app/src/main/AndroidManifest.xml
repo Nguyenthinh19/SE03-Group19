@@ -13,7 +13,8 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:icon">
-        <activity android:name=".FavoritesActivity"></activity>
+        <activity android:name=".SearchActivity"></activity>
+        <activity android:name=".FavoritesActivity" />
         <activity android:name=".OrderDetail" />
         <activity android:name=".OrderStatus" />
         <activity android:name=".Cart" />

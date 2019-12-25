@@ -120,7 +120,7 @@ public class FoodDetail extends AppCompatActivity implements RatingDialogListene
                 getDetailFood(foodId);
                 getRatingFood(foodId);
             } else {
-                Toast.makeText(FoodDetail.this, "Kiểm tra lại kết nối Internet!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(FoodDetail.this, "Kiểm tra lại kết nối!", Toast.LENGTH_SHORT).show();
                 return;
             }
         }

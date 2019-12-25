@@ -205,7 +205,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         if (Common.isConnectedToInternet(this))
             loadMenu();
         else {
-            Toast.makeText(this, "Kiểm tra lại kết nối Internet!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Kiểm tra lại kết nối!", Toast.LENGTH_SHORT).show();
             return;
         }
         // setupSlide
@@ -422,7 +422,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
                 }
             });
         } else {
-            Toast.makeText(Home.this, "Kiểm tra lại kết nối Internet !!!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Home.this, "Kiểm tra lại kết nối!", Toast.LENGTH_SHORT).show();
             return;
         }
     }

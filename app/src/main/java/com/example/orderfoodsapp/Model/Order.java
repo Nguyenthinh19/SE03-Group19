@@ -77,6 +77,4 @@ public class Order {
         Discount = discount;
         Image = image;
     }
-
-
 }

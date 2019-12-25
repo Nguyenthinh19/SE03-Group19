@@ -47,10 +47,10 @@ public class CartAdapter extends RecyclerView.Adapter<CartViewHolder> {
                 order.setQuantity(String.valueOf(newValue));
                 new Database(cart).updateCart(order);
 
-                int total = 0;
+                double total = 0;
                 List<Order> orders = new Database(cart).getCarts(Common.currentUser.getPhone());
                 for (Order item : orders) {
-                    total += (Integer.parseInt(item.getPrice())) * (Integer.parseInt(item.getQuantity()));
+                    total += (Double.parseDouble(item.getPrice())) * (Integer.parseInt(item.getQuantity()));
                     Locale locale = new Locale("en", "US");
                     NumberFormat fmt = NumberFormat.getCurrencyInstance(locale);
                     cart.txtTotalPrice.setText(fmt.format(total));
@@ -60,7 +60,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartViewHolder> {
 
         Locale locale = new Locale("en", "US");
         NumberFormat fmt = NumberFormat.getCurrencyInstance(locale);
-        int price = (Integer.parseInt(listData.get(position).getPrice()));
+        double price = (Double.parseDouble(listData.get(position).getPrice()));
         holder.txt_price.setText(fmt.format(price));
         holder.txt_cart_name.setText(listData.get(position).getProductName());
 

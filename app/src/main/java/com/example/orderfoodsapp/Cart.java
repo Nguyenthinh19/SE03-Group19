@@ -271,9 +271,9 @@ public class Cart extends AppCompatActivity implements RecyclerItemTouchHelperLi
         recyclerView.setAdapter(adapter);
 
         //Calculate total price
-        int total = 0;
+        double total = 0;
         for (Order order : cart)
-            total += (Integer.parseInt(order.getPrice())) * (Integer.parseInt(order.getQuantity()));
+            total += (Double.parseDouble(order.getPrice())) * (Integer.parseInt(order.getQuantity()));
         Locale locale = new Locale("en", "US");
         NumberFormat fmt = NumberFormat.getCurrencyInstance(locale);
 
@@ -306,10 +306,10 @@ public class Cart extends AppCompatActivity implements RecyclerItemTouchHelperLi
             adapter.removeItem(deleteIndex);
             new Database(getBaseContext()).removeFromCart(deleteItem.getProductId(), Common.currentUser.getPhone());
 
-            int total = 0;
+            double total = 0;
             List<Order> orders = new Database(getBaseContext()).getCarts(Common.currentUser.getPhone());
             for (Order item : orders) {
-                total += (Integer.parseInt(item.getPrice())) * (Integer.parseInt(item.getQuantity()));
+                total += (Double.parseDouble(item.getPrice())) * (Integer.parseInt(item.getQuantity()));
                 Locale locale = new Locale("en", "US");
                 NumberFormat fmt = NumberFormat.getCurrencyInstance(locale);
                 txtTotalPrice.setText(fmt.format(total));
@@ -322,10 +322,10 @@ public class Cart extends AppCompatActivity implements RecyclerItemTouchHelperLi
                     adapter.restoreItem(deleteIndex,deleteItem);
                     new Database(getBaseContext()).addToCart(deleteItem);
 
-                    int total = 0;
+                    double total = 0;
                     List<Order> orders = new Database(getBaseContext()).getCarts(Common.currentUser.getPhone());
                     for (Order item : orders) {
-                        total += (Integer.parseInt(item.getPrice())) * (Integer.parseInt(item.getQuantity()));
+                        total += (Double.parseDouble(item.getPrice())) * (Integer.parseInt(item.getQuantity()));
                         Locale locale = new Locale("en", "US");
                         NumberFormat fmt = NumberFormat.getCurrencyInstance(locale);
                         txtTotalPrice.setText(fmt.format(total));

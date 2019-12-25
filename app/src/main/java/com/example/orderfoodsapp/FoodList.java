@@ -104,7 +104,7 @@ public class FoodList extends AppCompatActivity {
                     if (Common.isConnectedToInternet(getBaseContext()))
                         loadListFood(categoryId);
                     else {
-                        Toast.makeText(FoodList.this, "Kiểm tra lại kết nối Internet!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(FoodList.this, "Kiểm tra lại kết nối!", Toast.LENGTH_SHORT).show();
                         return;
                     }
                 }
@@ -121,7 +121,7 @@ public class FoodList extends AppCompatActivity {
                     if (Common.isConnectedToInternet(getBaseContext()))
                         loadListFood(categoryId);
                     else {
-                        Toast.makeText(FoodList.this, "Kiểm tra lại kết nối Internet!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(FoodList.this, "Kiểm tra lại kết nối!", Toast.LENGTH_SHORT).show();
                         return;
                     }
                 }

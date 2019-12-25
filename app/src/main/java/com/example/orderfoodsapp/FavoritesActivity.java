@@ -60,7 +60,7 @@ public class FavoritesActivity extends AppCompatActivity implements RecyclerItem
                 if (Common.isConnectedToInternet(getBaseContext())) {
                     loadFavorites();
                 } else {
-                    Toast.makeText(getBaseContext(), "Kiểm tra lại kết nối Internet", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getBaseContext(), "Kiểm tra lại kết nối!", Toast.LENGTH_SHORT).show();
                     return;
                 }
             }
@@ -71,7 +71,7 @@ public class FavoritesActivity extends AppCompatActivity implements RecyclerItem
                 if (Common.isConnectedToInternet(getBaseContext())) {
                     loadFavorites();
                 } else {
-                    Toast.makeText(getBaseContext(), "Kiểm tra lại kết nối Internet", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getBaseContext(), "Kiểm tra lại kết nối!", Toast.LENGTH_SHORT).show();
                     return;
                 }
             }

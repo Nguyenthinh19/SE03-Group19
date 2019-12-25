@@ -83,8 +83,6 @@ public class MainActivity extends AppCompatActivity {
                 login(user, pwd);
             }
         }
-
-
     }
 
     private void login(final String phone, final String pwd) {
@@ -112,7 +110,6 @@ public class MainActivity extends AppCompatActivity {
                                 startActivity(homeIntent);
                                 finish();
                             }
-
                         } else {
                             Toast.makeText(MainActivity.this, "Sai mật khẩu!", Toast.LENGTH_SHORT).show();
                         }
@@ -122,14 +119,13 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
 
-
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
 
                 }
             });
         } else {
-            Toast.makeText(MainActivity.this, "Kiểm tra lại kết nối", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, "Kiểm tra lại kết nối!", Toast.LENGTH_SHORT).show();
             return;
         }
     }

@@ -10,6 +10,7 @@
 - Show list menu, list food.
 - Ordering.
 - Show list view Orders.
+- Adding payment method.
 ## 2. Tools and Technological
 ### *Tools
 - Android Studio.

@@ -10,6 +10,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.renderscript.ScriptIntrinsicHistogram;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -90,50 +91,57 @@ public class SignIn extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
+                String phone = edtPhone.getText().toString();
+                String password = edtPassword.getText().toString();
+
                 if (Common.isConnectedToInternet(getBaseContext())) {
 
+                    if (!TextUtils.isEmpty(phone)&& !TextUtils.isEmpty(password)) {
+                        if (ckbRemember.isChecked()) {
+                            Paper.book().write(Common.USER_KEY, edtPhone.getText().toString());
+                            Paper.book().write(Common.PWD_KEY, edtPassword.getText().toString());
+                        }
+                        // save user & password
 
-                    if (ckbRemember.isChecked()) {
-                        Paper.book().write(Common.USER_KEY, edtPhone.getText().toString());
-                        Paper.book().write(Common.PWD_KEY, edtPassword.getText().toString());
-                    }
-                    // save user & password
-                    final ProgressDialog mDialog = new ProgressDialog(SignIn.this);
-                    mDialog.setMessage("Xin chờ ...");
-                    mDialog.show();
-                    table_user.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            // Check if user not exit in database
-                            if (dataSnapshot.child(edtPhone.getText().toString()).exists()) {
-                                // Get User Information
-                                mDialog.dismiss();
-                                User user = dataSnapshot.child(edtPhone.getText().toString()).getValue(User.class);
-                                user.setPhone(edtPhone.getText().toString());
-                                if (user.getPassword().equals(edtPassword.getText().toString())) {
-                                    {
-                                        Intent homeIntent = new Intent(SignIn.this, Home.class);
-                                        Common.currentUser = user;
-                                        startActivity(homeIntent);
-                                        finish();
+                        final ProgressDialog mDialog = new ProgressDialog(SignIn.this);
+                        mDialog.setMessage("Xin chờ ...");
+                        mDialog.show();
+                        table_user.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                // Check if user not exit in database
+                                if (dataSnapshot.child(edtPhone.getText().toString()).exists()) {
+                                    // Get User Information
+                                    mDialog.dismiss();
+                                    User user = dataSnapshot.child(edtPhone.getText().toString()).getValue(User.class);
+                                    user.setPhone(edtPhone.getText().toString());
+                                    if (user.getPassword().equals(edtPassword.getText().toString())) {
+                                        {
+                                            Intent homeIntent = new Intent(SignIn.this, Home.class);
+                                            Common.currentUser = user;
+                                            startActivity(homeIntent);
+                                            finish();
 
-                                        table_user.removeEventListener(this);
+                                            table_user.removeEventListener(this);
+                                        }
+
+                                    } else {
+                                        Toast.makeText(SignIn.this, "Sai mật khẩu!", Toast.LENGTH_SHORT).show();
                                     }
-
                                 } else {
-                                    Toast.makeText(SignIn.this, "Sai mật khẩu!", Toast.LENGTH_SHORT).show();
+                                    mDialog.dismiss();
+                                    Toast.makeText(SignIn.this, "Tài khoản không tồn tại!!!", Toast.LENGTH_SHORT).show();
                                 }
-                            } else {
-                                mDialog.dismiss();
-                                Toast.makeText(SignIn.this, "Tài khoản không tồn tại!!!", Toast.LENGTH_SHORT).show();
                             }
-                        }
 
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                        }
-                    });
+                            }
+                        });
+                    } else {
+                        Toast.makeText(SignIn.this,"Vui lòng điền đầy đủ thông tin",Toast.LENGTH_SHORT).show();
+                    }
                 } else {
                     Toast.makeText(SignIn.this, "Kiểm tra lại kết nối!", Toast.LENGTH_SHORT).show();
                     return;
@@ -150,7 +158,7 @@ public class SignIn extends AppCompatActivity {
         View forgot_view = inflater.inflate(R.layout.forgot_password_layout, null);
         builder.setView(forgot_view);
         builder.setIcon(R.drawable.ic_security_black_24dp);
-        MaterialEditText editPhone = (MaterialEditText) forgot_view.findViewById(R.id.edtPhone);
+        final MaterialEditText editPhone = (MaterialEditText) forgot_view.findViewById(R.id.edtPhone);
         final MaterialEditText editSecureCode = (MaterialEditText) forgot_view.findViewById(R.id.edtSecureCode);
 
         builder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
@@ -160,7 +168,7 @@ public class SignIn extends AppCompatActivity {
                 table_user.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        User user = dataSnapshot.child(edtPhone.getText().toString()).getValue(User.class);
+                        User user = dataSnapshot.child(editPhone.getText().toString()).getValue(User.class);
                         if (user.getSecureCode().equals(editSecureCode.getText().toString())) {
                             Toast.makeText(SignIn.this, "Mật khẩu : " + user.getPassword(), Toast.LENGTH_LONG).show();
                         } else {

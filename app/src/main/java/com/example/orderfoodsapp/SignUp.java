@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
@@ -59,29 +60,49 @@ public class SignUp extends AppCompatActivity {
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String number  =  edtPhone.getText().toString();
+                String name = edtName.getText().toString();
+                String password = edtPassword.getText().toString();
+                String secureCode = edtSecureCode.getText().toString();
+
+                if (number.isEmpty() || number.length() <9) {
+                    edtPhone.setError("Nhập lại sdt");
+                    edtPhone.requestFocus();
+                    return;
+                }
+
+
+
                 if (Common.isConnectedToInternet(getBaseContext())) {
-                    final ProgressDialog mDialog = new ProgressDialog(SignUp.this);
-                    mDialog.setMessage("Xin chờ ...");
-                    mDialog.show();
-                    table_user.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            if (dataSnapshot.child(edtPhone.getText().toString()).exists()) {
-                                mDialog.dismiss();
-                                Toast.makeText(SignUp.this, "SĐT đã được đăng ký ", Toast.LENGTH_SHORT).show();
-                            } else {
-                                mDialog.dismiss();
-                                User user = new User(edtName.getText().toString(), edtPassword.getText().toString(), edtSecureCode.getText().toString());
-                                table_user.child(edtPhone.getText().toString()).setValue(user);
-                                Toast.makeText(SignUp.this, "Đăng ký thành công!", Toast.LENGTH_SHORT).show();
+
+                    if (!TextUtils.isEmpty(name) && !TextUtils.isEmpty(password) && !TextUtils.isEmpty(secureCode)) {
+
+                        final ProgressDialog mDialog = new ProgressDialog(SignUp.this);
+                        mDialog.setMessage("Xin chờ ...");
+                        mDialog.show();
+                        table_user.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                if (dataSnapshot.child(edtPhone.getText().toString()).exists()) {
+                                    mDialog.dismiss();
+                                    Toast.makeText(SignUp.this, "SĐT đã được đăng ký ", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    mDialog.dismiss();
+                                    User user = new User(edtName.getText().toString(), edtPassword.getText().toString(), edtSecureCode.getText().toString());
+                                    table_user.child(edtPhone.getText().toString()).setValue(user);
+                                    Toast.makeText(SignUp.this, "Đăng ký thành công!", Toast.LENGTH_SHORT).show();
+                                    finish();
+                                }
                             }
-                        }
 
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                        }
-                    });
+                            }
+                        });
+                    }else {
+                        Toast.makeText(SignUp.this,"Vui lòng điền đầy đủ thông tin",Toast.LENGTH_SHORT).show();
+                    }
                 } else {
                     Toast.makeText(SignUp.this, "Kiểm tra lại kết nối!", Toast.LENGTH_SHORT).show();
                     return;

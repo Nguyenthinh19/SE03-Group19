@@ -59,6 +59,7 @@ public class SearchActivity extends AppCompatActivity {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
     @Override
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
@@ -227,6 +228,7 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             protected void onBindViewHolder(@NonNull FoodViewHolder foodViewHolder, int i, @NonNull Food food) {
                 foodViewHolder.food_name.setText(food.getName());
+                foodViewHolder.food_price.setText(String.format("%s $", food.getPrice()));
                 Picasso.get().load(food.getImage()).into(foodViewHolder.food_image);
                 foodViewHolder.setItemClickListener(new ItemClickListener() {
                     @Override

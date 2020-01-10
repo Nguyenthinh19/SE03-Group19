@@ -15,7 +15,7 @@
   
 ### * Chức năng - Objects
 **_Sign in, Sign up, Sign out._**
- <div class="column" align="center">
+- <div class="column" align="center">
   <img src="img/Home.png" width="200" height="400">
   <img src="img/SignIn.png" width="200" height="400">
   <img src="img/SignUp.png" width="200" height="400">

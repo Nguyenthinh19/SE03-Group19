@@ -85,3 +85,6 @@ _Yêu cầu - Requirements_
 > New -> Clone from URL -> paste URL link to Source URl, Select directory folder to save project -> press "Clone" button
 - **_GitKraken_**
 > Clone a repo -> Clone with URL -> paste URL link to URl, Browse to folder to save project in "Where to clone to" -> press "Clone the repo" button
+## 5. Cách thức hoạt động - How it works
+![Database](https://user-images.githubusercontent.com/45708339/72185896-797f2a00-3426-11ea-8dbf-ade123d6e832.png)
+![ClientSide](https://user-images.githubusercontent.com/45708339/72185900-7be18400-3426-11ea-9ce9-d3a8a2af8e28.png)

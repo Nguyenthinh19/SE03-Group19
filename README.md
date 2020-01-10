@@ -15,7 +15,7 @@
   
 ### * Chức năng - Objects
 **_Sign in, Sign up, Sign out._**
-- <div class="column" align="center">
+ <div class="column" align="center">
   <img src="img/Home.png" width="200" height="400">
   <img src="img/SignIn.png" width="200" height="400">
   <img src="img/SignUp.png" width="200" height="400">
@@ -64,14 +64,7 @@
 - Source Tree or GitKraken to manage code.
 - SQLite to CRUD data from database.
 - SDK target version: 28
-
-## 3. Thành viên trong nhóm - Members
-- Nguyễn Đức Thịnh - 17001510.
-- Nguyễn Văn Thắng - 17000231.
-- Hà Đức Trung - 17001516.
-- Trần Tuấn Thành - 17001655.
-
-## 4. Hướng dẫn cài đặt và sử dụng - Instructions for installing and using
+## 3. Hướng dẫn cài đặt và sử dụng - Instructions for installing and using
 ### * Cài đặt - Installing
 _Yêu cầu - Requirements_
 - JDK 1.8 hoặc mới hơn (JDK version 1.8 or newer): https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
@@ -85,6 +78,8 @@ _Yêu cầu - Requirements_
 > New -> Clone from URL -> paste URL link to Source URl, Select directory folder to save project -> press "Clone" button
 - **_GitKraken_**
 > Clone a repo -> Clone with URL -> paste URL link to URl, Browse to folder to save project in "Where to clone to" -> press "Clone the repo" button
-## 5. Cách thức hoạt động - How it works
-![Database](https://user-images.githubusercontent.com/45708339/72185896-797f2a00-3426-11ea-8dbf-ade123d6e832.png)
-![ClientSide](https://user-images.githubusercontent.com/45708339/72185900-7be18400-3426-11ea-9ce9-d3a8a2af8e28.png)
+## 4. Thành viên trong nhóm - Members
+- Nguyễn Đức Thịnh - 17001510.
+- Nguyễn Văn Thắng - 17000231.
+- Hà Đức Trung - 17001516.
+- Trần Tuấn Thành - 17001655.
